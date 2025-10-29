@@ -14,30 +14,38 @@ redirect_from:
 
 # Installing OpenSearch
 
-This section provides information about how to install OpenSearch on your host, including which [ports to open](#network-requirements) and which [important settings](#important-settings) to configure on your host.
+* goal
+  * how to install OpenSearch | your host /
+    * which [ports to open](#network-requirements)
+    * which [important settings](#important-settings)
 
-For operating system compatibility, see [Compatible operating systems]({{site.url}}{{site.baseurl}}/install-and-configure/os-comp/).
+* [Compatible OS](../os-comp)
 
 ## Installation steps
 
-Installation steps vary depending on the deployment method. For steps specific to your deployment, see the following installation guides:
-
-- [Docker]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/docker/)
-- [Helm]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/helm/)
-- [Tarball]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/tar/)
-- [RPM]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/rpm/)
-- [Debian]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/debian/)
-- [Ansible playbook]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/ansible/)
-- [Windows]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/windows/)
+* -- depend on the -- deployment method
+  - [Docker](docker)
+  - [Helm](helm)
+  - [Tarball](tar)
+  - [RPM](rpm)
+  - [Debian](debian)
+  - [Ansible playbook](ansible)
+  - [Windows](windows)
 
 
 ## File system recommendations
 
-Avoid using a network file system for node storage in a production workflow. Using a network file system for node storage can cause performance issues in your cluster due to factors such as network conditions (like latency or limited throughput) or read/write speeds. You should use solid-state drives (SSDs) installed on the host for node storage where possible.
+* | production workflow's node storage
+  * ❌NOT use a network file system❌  
+    * Reason:🧠cluster's performance -- due to -- network conditions (latency or limited throughput) OR read/write speeds OR ...🧠
+  * use solid-state drives (SSDs) / installed | host
 
 ## Java compatibility
 
-The OpenSearch distribution for Linux ships with a compatible [Adoptium JDK](https://adoptium.net/) version of Java in the `jdk` directory. To find the JDK version, run `./jdk/bin/java -version`. For example, the OpenSearch 1.0.0 tarball ships with Java 15.0.1+9 (non-LTS), OpenSearch 1.3.0 ships with Java 11.0.14.1+1 (LTS), and OpenSearch 2.0.0 ships with Java 17.0.2+8 (LTS). OpenSearch is tested with all compatible Java versions.
+* OpenSearch distribution for Linux
+  * ships -- with a -- compatible [Adoptium JDK](https://adoptium.net/) version | `jdk` directory
+    * `./jdk/bin/java -version`
+      * check JDK version
 
 OpenSearch Version | Compatible Java Versions | Bundled Java Version
 :---------- | :-------- | :-----------
@@ -47,16 +55,20 @@ OpenSearch Version | Compatible Java Versions | Bundled Java Version
 2.12.0+        | 11, 17, 21 | 21.0.5+11
 3.2.0+        | 11, 17, 21 | 24.0.2+12
 
-To use a different Java installation, set the `OPENSEARCH_JAVA_HOME` or `JAVA_HOME` environment variable to the Java install location. For example:
-```bash
-export OPENSEARCH_JAVA_HOME=/path/to/opensearch-{{site.opensearch_version}}/jdk
-```
+
+* 
+  ```
+  # 1. -- via -- OPENSEARCH_JAVA_HOME
+  export OPENSEARCH_JAVA_HOME=/path/to/opensearch-{{site.opensearch_version}}/jdk
+  
+  # 2. -- via -- JAVA_HOME
+  export JAVA_HOME=/path/to/opensearch-{{site.opensearch_version}}/jdk
+  ```
+  * use a DIFFERENT Java installation
 
 ## Network requirements
 
-The following TCP ports need to be open for OpenSearch components.
-
-Port number | OpenSearch component
+TCP Port number | OpenSearch component
 :--- | :--- 
 443 | OpenSearch Dashboards in AWS OpenSearch Service with encryption in transit (TLS)
 5601 | OpenSearch Dashboards
@@ -64,61 +76,70 @@ Port number | OpenSearch component
 9300 | Node communication and transport (internal), cross cluster search
 9600 | Performance Analyzer
 
-No UDP ports are used.
-{: .note}
+* ❌NO use UDP ports❌
+
 
 ## Important settings
 
-For production workloads running on Linux, make sure the [Linux setting](https://www.kernel.org/doc/Documentation/sysctl/vm.txt) `vm.max_map_count` is set to at least `262144`. Even if you use the Docker image, set this value on the host machine. To check the current value, run this command:
+* | production workloads /
+  * `vm.max_map_count` >= `262144`
+    * | Linux, 
+      * see [Linux setting](https://www.kernel.org/doc/Documentation/sysctl/vm.txt)
+      * `cat /proc/sys/vm/max_map_count` 
+        * check the current value
+      * steps to modify the value
+        * | "/etc/sysctl.conf", add 
 
-```bash
-cat /proc/sys/vm/max_map_count
-```
+          ```
+          vm.max_map_count=262144
+          ```
 
-To increase the value, add the following line to `/etc/sysctl.conf`:
+        * `sudo sysctl -p`
+    * | Windows
+      * steps
 
-```
-vm.max_map_count=262144
-```
+        ```bash
+        wsl -d docker-desktop
+        sysctl -w vm.max_map_count=262144
+        ```
 
-Then run `sudo sysctl -p` to reload.
-
-For Windows workloads, you can set the `vm.max_map_count` running the following commands:
-
-```bash
-wsl -d docker-desktop
-sysctl -w vm.max_map_count=262144
-```
-
-The [sample docker-compose.yml]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/docker/#sample-docker-composeyml) file also contains several key settings:
-
-- `bootstrap.memory_lock=true`
-
-  Disables swapping (along with `memlock`). Swapping can dramatically decrease performance and stability, so you should ensure it is disabled on production clusters.
-
-  Enabling the `bootstrap.memory_lock` setting will cause the JVM to reserve any memory it needs. The [Java SE Hotspot VM Garbage Collection Tuning Guide](https://docs.oracle.com/javase/9/gctuning/other-considerations.htm#JSGCT-GUID-B29C9153-3530-4C15-9154-E74F44E3DAD9) documents a default 1 gigabyte (GB) Class Metadata native memory reservation. Combined with Java heap, this may result in an error due to the lack of native memory on VMs with less memory than these requirements. To prevent errors, limit the reserved memory size using `-XX:CompressedClassSpaceSize` or `-XX:MaxMetaspaceSize` and set the size of the Java heap to make sure you have enough system memory.
+* | production clusters
+  * `bootstrap.memory_lock=true`
+    * disables swapping (data | RAM is moved -- to -- hard disk) + `memlock`
+      * -> ⚠️decrease performance and stability⚠️
+    * -> JVM to reserve ANY memory / it needs
+      * by default, 1 gigabyte (GB) Class Metadata native memory reservation 
+        * [Java SE Hotspot VM Garbage Collection Tuning Guide](https://docs.oracle.com/javase/9/gctuning/other-considerations.htm#JSGCT-GUID-B29C9153-3530-4C15-9154-E74F44E3DAD9) 
+      * Problems:
+        * Problem1: + Java heap, NO VMs' native memory / fit these requirements
+          * Solution: 👀
+            * limit the reserved memory size -- via -- `-XX:CompressedClassSpaceSize` OR `-XX:MaxMetaspaceSize`
+            * set the Java heap's size / enough system memory👀
 
 - `OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m`
-
-  Sets the size of the Java heap (we recommend half of system RAM).
-  
- OpenSearch defaults to `-Xms1g -Xmx1g` for heap memory allocation, which takes precedence over configurations specified using percentage notation (`-XX:MinRAMPercentage`, `-XX:MaxRAMPercentage`). For example, if you set `OPENSEARCH_JAVA_OPTS=-XX:MinRAMPercentage=30 -XX:MaxRAMPercentage=70`, the predefined `-Xms1g -Xmx1g` values will override these settings. When using `OPENSEARCH_JAVA_OPTS` to define memory allocation, make sure you use the `-Xms` and `-Xmx` notation.
-{: .note}
+  - Java heap's size /
+    - use `-Xms` & `-Xmx` notation
+  - recommendation
+    - 1/ system RAM
+  - by default, 
+    - heap memory allocation == `-Xms1g -Xmx1g` /
+      - ⚠️precedence over configurations -- via -- percentage notation (`-XX:MinRAMPercentage`, `-XX:MaxRAMPercentage`)⚠️
+        - _Example:_ if you set `OPENSEARCH_JAVA_OPTS=-XX:MinRAMPercentage=30 -XX:MaxRAMPercentage=70` -> the predefined `-Xms1g -Xmx1g` values override these settings
 
 - `nofile 65536`
-
-  Sets a limit of 65536 open files for the OpenSearch user.
+  - == OpenSearch user can ONLY open 65536 files 
 
 - `port 9600`
+  - allows you to 
+    - access Performance Analyzer | port 9600
 
-  Allows you to access Performance Analyzer on port 9600.
-
-Do not declare the same JVM options in multiple locations because it can result in unexpected behavior or a failure of the OpenSearch service to start. If you declare JVM options using an environment variable, such as `OPENSEARCH_JAVA_OPTS=-Xms3g -Xmx3g`, then you should comment out any references to that JVM option in `config/jvm.options`. Conversely, if you define JVM options in `config/jvm.options`, then you should not define those JVM options using environment variables.
-{: .note}
+* ❌NOT declare the same JVM options | MULTIPLE locations❌
+  * Reason: 🧠it can cause unexpected behavior OR failure of the OpenSearch service to start🧠
+  * _Example:_ if you declare `OPENSEARCH_JAVA_OPTS=-Xms3g -Xmx3g` as environment variable -> comment out | `config/jvm.options`
 
 ## Important system properties
 
-OpenSearch has a number of system properties, listed in the following table, that you can specify in `config/jvm.options` or `OPENSEARCH_JAVA_OPTS` using `-D` command line argument notation.
+* | `config/jvm.options` OR CL's argument `-D` `OPENSEARCH_JAVA_OPTS`
 
 Property | Description
 :---------- | :-------- 

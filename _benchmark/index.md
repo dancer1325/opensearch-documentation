@@ -37,23 +37,28 @@ items:
 
 # OpenSearch Benchmark
 
-This page reflects the updated terminology in OpenSearch Benchmark `2.X`. `1.15` is the last supported version in the `1.X` series. For more information about what's changed, see the [version history page]({{site.url}}{{site.baseurl}}/benchmark/version-history/). For migration assistance, see the [migration assistance page]({{site.url}}{{site.baseurl}}/benchmark/migration-assistance/).
-{: .important }
+* used terminology
+  * follows OpenSearch Benchmark `2.X`
 
-OpenSearch Benchmark is a macrobenchmark utility provided by the [OpenSearch Project](https://github.com/opensearch-project). You can use OpenSearch Benchmark to gather performance metrics from an OpenSearch cluster for a variety of purposes, including:
+* [version history](version-history)
+* [migration assistance](migration-assistance)
 
-- Tracking the overall performance of an OpenSearch cluster.
-- Informing decisions about when to upgrade your cluster to a new version.
-- Determining how changes to your workflow---such as modifying mappings or queries---might impact your cluster.
+* OpenSearch Benchmark
+  * == macrobenchmark utility 
+    * provided -- by the -- [OpenSearch Project](https://github.com/opensearch-project)
+  * uses
+    * gather OpenSearch cluster's performance metrics
+  * use cases
+    - enable you to decide when to upgrade your cluster
+    - measure cluster impact / EACH change
 
 ## Get started
 
-{% include list.html list_items=page.items%}
-
-
+* see ☝️items listed☝️
 
 
 ## Resources
 
+* TODO:
 {% include cards.html cards=page.tutorial_cards %}
 {% include cards.html cards=page.more_cards %}

@@ -6,22 +6,23 @@ nav_order: 2
 
 # OpenSearch Benchmark quickstart
 
-This page outlines how to quickly install OpenSearch Benchmark and run your first OpenSearch Benchmark workload.
+* goal
+  * how to
+    * install OpenSearch Benchmark
+    * run your first OpenSearch Benchmark workload
 
 ## Prerequisites
 
-To perform the Quickstart steps, you'll need to fulfill the following prerequisites:
-
-- A currently active OpenSearch cluster. For instructions on how to create an OpenSearch cluster, see [Creating a cluster]({{site.url}}{{site.baseurl}}/tuning-your-cluster/index/).
-- Git 2.3 or greater.
-- Python 3.8 or later
+- [currently active OpenSearch cluster](/_tuning-your-cluster/index.md)
+- Git 2.3+
+- Python 3.8+
 
 ## Set up an OpenSearch cluster
 
 If you don't already have an active OpenSearch cluster, you can launch a new OpenSearch cluster to use with OpenSearch Benchmark.
 
 - Using **Docker Compose**. For instructions on how to use Docker Compose, see [OpenSearch Quickstart]({{site.url}}{{site.baseurl}}/quickstart/).
-- Using **Tar**. For instructions on how to install OpenSearch with Tar, see [Installing OpenSearch > Tarball]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/tar#step-1-download-and-unpack-opensearch).
+- Using **Tar**. For instructions on how to install OpenSearch with Tar, see [Installing OpenSearch > Tarball](/_install-and-configure/install-opensearch/tar#step-1-download-and-unpack-opensearch).
 
 OpenSearch Benchmark has not been tested with the Window's distribution of OpenSearch.
 {: .note}

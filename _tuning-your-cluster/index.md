@@ -51,7 +51,8 @@ It is a best practice to direct traffic from external sources, such as [OpenSear
 
 ## Prerequisites
 
-Before you get started, you must install and configure OpenSearch on all of your nodes. For information about the available options, see [Install and configure OpenSearch]({{site.url}}{{site.baseurl}}/opensearch/install/).
+Before you get started, you must install and configure OpenSearch on all of your nodes
+For information about the available options, see [Install and configure OpenSearch](/opensearch/install/).
 
 After you're done, use SSH to connect to each node, then open the `config/opensearch.yml` file. You can set all configurations for your cluster in this file.
 

@@ -10,26 +10,59 @@ redirect_from:
 
 # Concepts
 
-Before you start using OpenSearch Benchmark, it's helpful to understand the following concepts, in order to effectively design, run, and analyze your benchmarks to evaluate OpenSearch performance under different scenarios.
+* goal
+  * Opensearch Bechmark concepts /
+    * enables you effectively, about your benchmarks to,
+      * design, 
+      * run,
+      * analyze 
 
 ## Benchmark architecture
 
-The following diagram illustrates how OpenSearch Benchmark operates when running against a local host.
+* OpenSearch Benchmark running -- against a -- local host
 
-![Benchmark workflow]({{site.url}}{{site.baseurl}}/images/benchmark/osb-workflow.jpg).
+  ![Benchmark workflow](/images/benchmark/osb-workflow.jpg)
 
 ## Core concepts and definitions
 
-- **Workload**: A collection of one or more benchmarking scenarios that use a specific document corpus to perform a benchmark against your cluster. The document corpus contains any indexes, data files, and operations invoked when the workload runs. You can list the available workloads by using `opensearch-benchmark list workloads` or view any included workloads in the [OpenSearch Benchmark Workloads repository](https://github.com/opensearch-project/opensearch-benchmark-workloads/). For more information about the elements of a workload, see [Anatomy of a workload]({{site.url}}{{site.baseurl}}/benchmark/user-guide/understanding-workloads/anatomy-of-a-workload/). For information about building a custom workload, see [Creating custom workloads]({{site.url}}{{site.baseurl}}/benchmark/creating-custom-workloads/). A workload typically includes the following:
-  - One or more data streams that are ingested into indexes.
-  - A set of queries and operations that are invoked as part of the benchmark.
+- **Workload**
+  - == 💡>=1 benchmarking scenarios 💡/ 
+    - perform a benchmark -- , via specific document corpus, against -- your cluster 
+      - document corpus == indexes + data files + operations / invoked | run the workload
+  - == 👀
+    - \>=1 data streams / ingested | indexes +
+    - queries & operations / invoked -- as part of the -- benchmark👀
+  - 👀ways to list the available workloads👀
+    - `opensearch-benchmark list workloads`
+    - [OpenSearch Benchmark Workloads repository](https://github.com/opensearch-project/opensearch-benchmark-workloads/)
+  - ['s anatomy](understanding-workloads/anatomy-of-a-workload)
+  - [how to build a custom workload](working-with-workloads/creating-custom-workloads)
 
-- **Pipeline**: A series of steps occurring before and after a workload is run that determines benchmark results. OpenSearch Benchmark supports three pipelines:
-  - `from-sources`: Builds and provisions OpenSearch, runs a benchmark, and then publishes the results.
-  - `from-distribution`: Downloads an OpenSearch distribution, provisions it, runs a benchmark, and then publishes the results.
-  - `benchmark-only`: The default pipeline. Assumes an already running OpenSearch instance, runs a benchmark on that instance, and then publishes the results.
+- **Pipeline**
+  - == 👀stepS before and after a workload runs👀 /
+    - determines benchmark results
+    - supported pipelines
+      - `from-sources`
+        - steps
+          - builds and provisions OpenSearch
+          - runs a benchmark
+          - publishes the benchmark results
+      - `from-distribution`
+        - steps
+          - downloads an OpenSearch distribution,
+          - provisions it,
+          - runs a benchmark,
+          - publishes the benchmark results
+      - `benchmark-only`
+        - default
+        - requirements
+          - OpenSearch instance running
+        - steps
+          - run a benchmark | that OpenSearch instance,
+          - publishes the benchmark results
 
-- **Test**: A single invocation of the OpenSearch Benchmark binary.
+- **Test**
+  - == 1! invocation of the OpenSearch Benchmark binary
 
 ## Test concepts
 
