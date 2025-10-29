@@ -10,17 +10,9 @@ redirect_from:
 
 # Docker
 
-You can pull official images from [Docker Hub](https://hub.docker.com/u/opensearchproject) or [Amazon Elastic Container Registry (Amazon ECR)](https://gallery.ecr.aws/opensearchproject/) and
-quickly deploy a cluster using [Docker Compose](https://github.com/docker/compose) and any of the sample Docker Compose files included in this guide
-* Experienced OpenSearch users can further customize their deployment by creating a custom Docker Compose file.
-
-Docker containers are portable and will run on any compatible host that supports Docker (such as Linux, MacOS, or Windows)
-* The portability of a Docker container offers flexibility over other installations methods, like [RPM]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/rpm/) or a manual [Tarball]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/tar/) installation, which both require additional configuration after downloading and unpacking.
-
-This guide assumes that you are comfortable working from the Linux command line interface (CLI)
-* You should understand how to input commands, navigate between directories, and edit text files
-* For help with [Docker](https://www.docker.com/) or [Docker Compose](https://github.com/docker/compose), refer to the official documentation on their websites.
-{:.note}
+* pull images |
+  * [Docker Hub](https://hub.docker.com/u/opensearchproject) 
+  * [Amazon Elastic Container Registry (Amazon ECR)](https://gallery.ecr.aws/opensearchproject/)
 
 ## Install Docker and Docker Compose
 
@@ -30,17 +22,15 @@ This guide assumes that you are comfortable working from the Linux command line 
 
 ## Configure important host settings
 
-* Reason:🧠 affect your services' performance🧠,
+* Reason:🧠 affect your services' performance🧠
 * [ADDITIONAL ones](index.md#important-settings)
 
 ### Linux settings
-For a Linux environment, run the following commands:
 
-1. Disable memory paging and swapping performance on the host to improve performance.
-   ```bash
-   sudo swapoff -a
-   ```
-1. Increase the number of memory maps available to OpenSearch.
+* `sudo swapoff -a`
+  * disable memory paging & swapping performance
+    * Reason:🧠improve performance🧠
+* increase the number of memory maps / AVAILABLE | OpenSearch
    ```bash
    # Edit the sysctl config file
    sudo vi /etc/sysctl.conf
@@ -58,48 +48,22 @@ For a Linux environment, run the following commands:
    ```
 
 ### Windows settings
-For Windows workloads using WSL through Docker Desktop, run the following commands in a terminal to set the `vm.max_map_count`:
+* | Windows workloads / use WSL through Docker Desktop
 
 ```bash
 wsl -d docker-desktop
 sysctl -w vm.max_map_count=262144
 ```   
 
-## Run OpenSearch in a Docker container
+## Run OpenSearch | Docker container
 
-Official OpenSearch images are hosted on [Docker Hub](https://hub.docker.com/u/opensearchproject/) and [Amazon ECR](https://gallery.ecr.aws/opensearchproject/). If you want to inspect the images you can pull them individually using `docker pull`, such as in the following examples.
-
-[Docker Hub](https://hub.docker.com/u/opensearchproject/):
-```bash
-docker pull opensearchproject/opensearch:{{ site.opensearch_version | split: "." | first }}
-```
-{% include copy.html %}
-
-```bash
-docker pull opensearchproject/opensearch-dashboards:{{ site.opensearch_version | split: "." | first }}
-```
-{% include copy.html %}
-
-[Amazon ECR](https://gallery.ecr.aws/opensearchproject/):
-```bash
-docker pull public.ecr.aws/opensearchproject/opensearch:{{ site.opensearch_version | split: "." | first }}
-```
-{% include copy.html %}
-
-```bash
-docker pull public.ecr.aws/opensearchproject/opensearch-dashboards:{{ site.opensearch_version | split: "." | first }}
-```
-{% include copy.html %}
-
-To download a specific version of OpenSearch or OpenSearch Dashboards other than the latest available version, modify the image tag where it is referenced (either in the command line or in a Docker Compose file). For example, `opensearchproject/opensearch:{{site.opensearch_version}}` will pull OpenSearch version {{site.opensearch_version}}. To pull the latest version, use `opensearchproject/opensearch:latest`. Refer to the official image repositories for available versions. 
-{: .tip}
-
-Before continuing, you should verify that Docker is working correctly by deploying OpenSearch in a single container.
 
 1. Start OpenSearch in Docker.
-    OpenSearch 2.12 or later requires that you set a custom admin password when starting. For more information, see [Setting a custom admin password](#setting-a-custom-admin-password). If the password is insufficiently strong, an error is reported in the log and OpenSearch quits:
+    OpenSearch 2.12 or later requires that you set a custom admin password when starting
+    For more information, see [Setting a custom admin password](#setting-a-custom-admin-password)
+    If the password is insufficiently strong, an error is reported in the log and OpenSearch quits:
     ```bash
-    docker run -d -p 9200:9200 -p 9600:9600 -e "discovery.type=single-node" -e "OPENSEARCH_INITIAL_ADMIN_PASSWORD=<custom-admin-password>" opensearchproject/opensearch:latest
+    
     ```
     Older versions do not include a password when starting:
     ```bash
@@ -147,7 +111,7 @@ Before continuing, you should verify that Docker is working correctly by deployi
 Remember that `docker container ls` does not list stopped containers. If you would like to review stopped containers, use `docker container ls -a`. You can remove unneeded containers manually with `docker container rm <containerId_1> <containerId_2> <containerId_3> [...]` (pass all container IDs you want to stop, separated by spaces), or if you want to remove all stopped containers, you can use the shorter command `docker container prune`.
 {: .tip}
 
-## Deploy an OpenSearch cluster using Docker Compose
+## Deploy an OpenSearch cluster -- via -- Docker Compose
 
 Although it is technically possible to build an OpenSearch cluster by creating containers one command at a time, it is far easier to define your environment in a YAML file and let Docker Compose manage the cluster. The following section contains example YAML files that you can use to launch a predefined cluster with OpenSearch and OpenSearch Dashboards. These examples are useful for testing and development, but are not suitable for a production environment. If you don't have prior experience using Docker Compose, you may wish to review the Docker [Compose specification](https://docs.docker.com/compose/compose-file/) for guidance on syntax and formatting before making any changes to the dictionary structures in the examples.
 
@@ -169,7 +133,7 @@ If this is your first time launching an OpenSearch cluster using Docker Compose,
 
 ### Setting a custom admin password
 
-Starting with OpenSearch 2.12, a custom admin password is required to set up a demo security configuration. Do one of the following:
+* Starting with OpenSearch 2.12, a custom admin password is required to set up a demo security configuration. Do one of the following:
 
 - Before running `docker-compose.yml`, set a new custom admin password using the following command:
   ```
