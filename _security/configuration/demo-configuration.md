@@ -7,33 +7,35 @@ nav_order: 4
 
 # Setting up a demo configuration
 
-Welcome to the OpenSearch Security plugin demo configuration setup guide. This tool provides a quick and easy way to replicate a production environment for testing purposes. The demo configuration includes the setup of security-related components, such as internal users, roles, role mappings, audit configuration, basic authentication, tenants, and allow lists.
+* OpenSearch Security plugin demo configuration
+  * == tool /
+    * configures security settings / loaded | security index
+    * install demo self-signed TLS certificates
+    * adds security-related settings | "opensearch.yml"
+    * enables you to 
+      * 👀replicate a production environment👀
+    * | setup EACH supported OpenSearch distribution,
+      * AUTOMATICALLY used 
+  * == 💡setup of security-related components💡
+    * _Example:_ internal users + roles + role mappings + audit configuration + basic authentication + tenants + allow lists 
+  * use cases
+    * testing purposes
 
-The demo configuration tool performs the following tasks:
-
-1. Configures security settings, which are then loaded into the security index.
-2. Generates demo certificates.
-3. Adds security-related settings to the `opensearch.yml` file.
+* goal
+  * OpenSearch Security plugin demo configuration/ EACH OpenSearch distribution
 
 ## Installing the demo configuration
 
-The demo configuration is automatically called as part of the setup for each supported distribution of OpenSearch. The following are instructions for each distribution.
-
-**Note**: Starting with OpenSearch 2.12, a custom admin password is required in order to install the demo configuration. If none is provided, the cluster will fail to start. Note that this change only affects new clusters. Existing clusters are not affected because they already have `opensearch.yml` configured, so the installation tool will not run. 
-
 ### Docker
 
-Use the following steps to set up the Security plugin using Docker:
-
-1. Download [docker-compose.yml](https://opensearch.org/downloads.html).
-2. Run the following command:
-
-```bash
-docker compose up
-```
-{% include copy.html %}
-
-If you want to disable the Security plugin when using Docker, set the `DISABLE_SECURITY_PLUGIN` environment variable  to `true` in the `docker-compose.yml` file. Disabling the Security plugin is not recommended. For more information, see the [Docker image release README](https://github.com/opensearch-project/opensearch-build/tree/main/docker/release#disable-security-plugin-security-dashboards-plugin-security-demo-configurations-and-related-configurations) in GitHub.
+* if you want to disable -> [add environment variables](https://github.com/opensearch-project/opensearch-build/tree/main/docker/release#disable-security-plugin-security-dashboards-plugin-security-demo-configurations-and-related-configurations)
+  * | OpenSearch
+    * `DISABLE_SECURITY_PLUGIN=true`
+      * ❌NOT recommended❌
+      * Example: `docker run -e "DISABLE_SECURITY_PLUGIN=true" opensearchproject/opensearch:latest`
+    * `DISABLE_INSTALL_DEMO_CONFIG=true`
+  * | OpenSearch Dashboards,
+    * `DISABLE_SECURITY_DASHBOARDS_PLUGIN=true`
 
 ### Setting up a custom admin password
 **Note**: For OpenSearch versions 2.12 and later, you must set the initial admin password before installation. To customize the admin password, you can take the following steps:

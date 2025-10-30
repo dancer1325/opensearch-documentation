@@ -56,12 +56,13 @@ sysctl -w vm.max_map_count=262144
 ```   
 
 ## Run OpenSearch | Docker container
-
+### ways
+#### -- via -- `docker run`
 
 1. Start OpenSearch in Docker.
     OpenSearch 2.12 or later requires that you set a custom admin password when starting
     For more information, see [Setting a custom admin password](#setting-a-custom-admin-password)
-    If the password is insufficiently strong, an error is reported in the log and OpenSearch quits:
+    
     ```bash
     
     ```
@@ -111,35 +112,28 @@ sysctl -w vm.max_map_count=262144
 Remember that `docker container ls` does not list stopped containers. If you would like to review stopped containers, use `docker container ls -a`. You can remove unneeded containers manually with `docker container rm <containerId_1> <containerId_2> <containerId_3> [...]` (pass all container IDs you want to stop, separated by spaces), or if you want to remove all stopped containers, you can use the shorter command `docker container prune`.
 {: .tip}
 
-## Deploy an OpenSearch cluster -- via -- Docker Compose
+#### -- via -- Docker Compose
+ 
+* 👀[demo security configuration](/_security/configuration/demo-configuration.md)👀
 
-Although it is technically possible to build an OpenSearch cluster by creating containers one command at a time, it is far easier to define your environment in a YAML file and let Docker Compose manage the cluster. The following section contains example YAML files that you can use to launch a predefined cluster with OpenSearch and OpenSearch Dashboards. These examples are useful for testing and development, but are not suitable for a production environment. If you don't have prior experience using Docker Compose, you may wish to review the Docker [Compose specification](https://docs.docker.com/compose/compose-file/) for guidance on syntax and formatting before making any changes to the dictionary structures in the examples.
+### demo security configuration
 
-The YAML file that defines the environment is referred to as a Docker Compose file. By default, `docker-compose` commands will first check your current directory for a file that matches any of the following names:
-- `docker-compose.yml`
-- `docker-compose.yaml`
-- `compose.yml`
-- `compose.yaml`
-
-If none of those files exist in your current directory, the `docker-compose` command fails.
-
-You can specify a custom file location and name when invoking `docker-compose` with the `-f` flag:
-```bash
-# Use a relative or absolute path to the file.
-docker compose -f /path/to/your-file.yml up
-```
-
-If this is your first time launching an OpenSearch cluster using Docker Compose, use the following example `docker-compose.yml` file. Save it in the home directory of your host and name it `docker-compose.yml`. This file creates a cluster that contains three containers: two containers running the OpenSearch service and a single container running OpenSearch Dashboards. These containers communicate over a bridge network called `opensearch-net` and use two volumes, one for each OpenSearch node. Because this file does not explicitly disable the demo security configuration, self-signed TLS certificates are installed and internal users with default names and passwords are created.
+* [here](/_security/configuration/demo-configuration.md)
 
 ### Setting a custom admin password
 
-* Starting with OpenSearch 2.12, a custom admin password is required to set up a demo security configuration. Do one of the following:
+* | 
+  * OpenSearch 2.12-,
+    * ❌NOT need custom admin password❌
+      * Reason:🧠ALREADY "opensearch.yml" configured
+        * -> installation tool will NOT run🧠
+  * OpenSearch 2.12+,
+    * requirements
+      * ⚠️custom admin password⚠️
 
-- Before running `docker-compose.yml`, set a new custom admin password using the following command:
-  ```
-  export OPENSEARCH_INITIAL_ADMIN_PASSWORD=<custom-admin-password>
-  ```
-  {% include copy.html %}
+* ⚠️if the password is NOT enough strong ->
+  * error logging
+  * OpenSearch quits⚠️
   
 - Create an `.env` file in the same folder as your `docker-compose.yml` file with the `OPENSEARCH_INITIAL_ADMIN_PASSWORD` and a strong password value.
 
@@ -171,45 +165,15 @@ You can customize the default password requirements by updating the [password cl
 
 ### Sample docker-compose.yml
 
-* [here](examples/docker/docker-compose.yml)
+If you override `opensearch_dashboards.yml` settings using environment variables in your compose file, 
+use all uppercase letters and replace periods with underscores (for example, for `opensearch.hosts`, use `OPENSEARCH_HOSTS`)
+This behavior is inconsistent with overriding `opensearch.yml` settings, where the conversion is just a change to the assignment operator 
+(for example, `discovery.type: single-node` in `opensearch.yml` is defined as `discovery.type=single-node` in `docker-compose.yml`).
 
-{% include copy.html %}
-
-If you override `opensearch_dashboards.yml` settings using environment variables in your compose file, use all uppercase letters and replace periods with underscores (for example, for `opensearch.hosts`, use `OPENSEARCH_HOSTS`). This behavior is inconsistent with overriding `opensearch.yml` settings, where the conversion is just a change to the assignment operator (for example, `discovery.type: single-node` in `opensearch.yml` is defined as `discovery.type=single-node` in `docker-compose.yml`).
-{: .note}
-
-From the home directory of your host (containing `docker-compose.yml`), create and start the containers in detached mode:
-```bash
-docker compose up -d
-```
-{% include copy.html %}
-
-Verify that the service containers started correctly:
-```bash
-docker compose ps
-```
-{% include copy.html %}
-
-If a container failed to start, you can review the service logs:
-```bash
-# If you don't pass a service name, docker compose will show you logs from all of the nodes
-docker compose logs <serviceName>
-```
-{% include copy.html %}
-
-Verify access to OpenSearch Dashboards by connecting to http://localhost:5601 from a browser. For OpenSearch 2.12 and later, you must use your configured username and password. For earlier versions, the default username and password are `admin`. We do not recommend using this configuration on hosts that are accessible from the public internet until you have customized the security configuration of your deployment.
-
-Remember that `localhost` cannot be accessed remotely. If you are deploying these containers to a remote host, then you will need to establish a network connection and replace `localhost` with the IP or DNS record corresponding to the host.
-{: .note}
-
-Stop the running containers in your cluster:
-```bash
-docker compose down
-```
-{% include copy.html %}
-
-`docker compose down` will stop the running containers, but it will not remove the Docker volumes that exist on the host. If you don't care about the contents of these volumes, use the `-v` option to delete all volumes, for example, `docker compose down -v`.
-{: .tip}
+Verify access to OpenSearch Dashboards by connecting to http://localhost:5601 from a browser
+For OpenSearch 2.12 and later, you must use your configured username and password
+For earlier versions, the default username and password are `admin`
+We do not recommend using this configuration on hosts that are accessible from the public internet until you have customized the security configuration of your deployment.
 
 ## Configure OpenSearch
 
