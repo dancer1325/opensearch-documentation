@@ -15,22 +15,33 @@ redirect_from:
 
 # Mappings
 
-Mappings tell OpenSearch how to store and index your documents and their fields. You can specify the data type for each field (for example, `year` as `date`) to make storage and querying more efficient. 
+* Mappings
+  * == 👀OpenSearch information👀 about
+    * documents
+      * how to store
+      * how to index
+    * ' fields
+      * how to store
+      * how to index
+  * recommendations
+    * specify EACH field's data type
+      * Reason:🧠storage & querying MORE efficient🧠
 
-While [dynamic mappings](#dynamic-mapping) automatically add new data and fields, using explicit mappings is recommended. Explicit mappings let you define the exact structure and data types upfront. This helps to maintain data consistency and optimize performance, especially for large datasets or high-volume indexing operations.
+## Types
+### Dynamic mapping
 
-For example, with explicit mappings, you can ensure that `year` is treated as text and `age` as an integer instead of both being interpreted as integers by dynamic mapping.
+* AUTOMATICALLY add NEW
+  * data
+  * fields
+When you index a document, OpenSearch adds fields automatically with dynamic mapping
+* You can also explicitly add fields to an index mapping.
 
-## Dynamic mapping
-
-When you index a document, OpenSearch adds fields automatically with dynamic mapping. You can also explicitly add fields to an index mapping.
-
-### Dynamic mapping rules
+#### Dynamic mapping rules
 
 When OpenSearch encounters a new field during indexing, it uses the following rules to determine the field type:
 
 JSON data type | OpenSearch field type | Description
-:--- | :--- | :---
+:---- | :--- | :---
 `null` | No field is added | A `null` field can't be indexed or searched. When a field is set to null, OpenSearch behaves as if the field has no value.
 `true` or `false` | [`boolean`]({{site.url}}{{site.baseurl}}/mappings/supported-field-types/boolean/) field | OpenSearch accepts `true` and `false` as Boolean values. An empty string is equal to `false`.
 Double (for example, `1.5`) | [`float`]({{site.url}}{{site.baseurl}}/mappings/supported-field-types/numeric/) field | A single-precision, 32-bit IEEE 754 floating-point number, restricted to finite values. JSON floating-point numbers are mapped to this type.
@@ -41,7 +52,7 @@ String (`""`) | [`text`]({{site.url}}{{site.baseurl}}/mappings/supported-field-t
 
 These are the only field types that are automatically detected. All other field types must be mapped explicitly.
 
-### Dynamic templates
+#### Dynamic templates
 
 Dynamic templates are used to define custom mappings for dynamically added fields based on the data type, field name, or field path. They allow you to define a flexible schema for your data that can automatically adapt to changes in the structure or format of the input data.
 
@@ -69,7 +80,7 @@ PUT index
 
 This mapping configuration dynamically maps any field with a name starting with `status` (for example, `status_code`) to the `short` data type if the initial value provided during indexing is a string.
 
-### Dynamic mapping parameters
+#### Dynamic mapping parameters
 
 The `dynamic_templates` support the following parameters for matching conditions and mapping rules. The default value is `null`.
 
@@ -83,11 +94,11 @@ Parameter | Description |
 `path_unmatch` | Excludes nested field paths from the mapping using a regular expression.
 `mapping` | The mapping configuration to apply.
 
-### Dynamic mapping settings
+#### Dynamic mapping settings
 
 OpenSearch provides several settings to control how dynamic mapping behaves when processing new fields.
 
-#### Date detection
+##### Date detection
 
 By default, OpenSearch automatically detects date-formatted strings and creates `date` fields. When `date_detection` is enabled (default), new string fields are checked against date patterns specified in `dynamic_date_formats`. If a match is found, a new `date` field is created with the corresponding format.
 
@@ -132,7 +143,7 @@ PUT sample-index
 ```
 {% include copy-curl.html %}
 
-#### Numeric detection
+##### Numeric detection
 
 While JSON supports native numeric data types, some applications may send numbers as strings. OpenSearch can automatically detect numeric strings and map them as numeric fields when `numeric_detection` is enabled.
 
@@ -166,26 +177,20 @@ With numeric detection enabled:
 - The `price` field will be mapped as a `float` field
 - The `quantity` field will be mapped as a `long` field
 
-## Explicit mapping
+### Explicit mapping
 
-If you know exactly which field data types you need to use, then you can specify them in your request body when creating your index, as shown in the following example request:
+* == 👀define the EXACT structure & data types👀
+  * EXISTING field's mapping
+    * ❌can NOT be changed❌
+    * parameters can be modified
+* 💡recommended one💡
+  * Reasons:🧠
+    * data consistency
+    * optimize performance🧠
+  * use cases
+    * large datasets
+    * high-volume indexing operations
 
-```json
-PUT sample-index1
-{
-  "mappings": {
-    "properties": {
-      "year":    { "type" : "text" },
-      "age":     { "type" : "integer" },
-      "director":{ "type" : "text" }
-    }
-  }
-}
-```
-{% include copy-curl.html %}
-
-You cannot change the mapping of an existing field, you can only modify the field's mapping parameters.
-{: .note}
 
 To add mappings to an existing index or data stream, you can send a request to the `_mapping` endpoint using the `PUT` or `POST` HTTP method, as shown in the following example request:
 

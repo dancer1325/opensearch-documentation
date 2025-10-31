@@ -10,13 +10,17 @@ redirect_from:
   - /opensearch/rest-api/update-mapping/
 ---
 
-# Create Or Update Mappings API
+# PUT mapping API
 **Introduced 1.0**
 {: .label .label-purple }
 
-If you want to create or add mappings and fields to an index, you can use the put mapping API operation. For an existing mapping, this operation updates the mapping.
-
-You can't use this operation to update mappings that already map to existing data in the index. You must first create a new index with your desired mappings, and then use the [reindex API operation]({{site.url}}{{site.baseurl}}/opensearch/reindex-data) to map all the documents from your old index to the new index. If you don't want any downtime while you re-index your indexes, you can use [aliases]({{site.url}}{{site.baseurl}}/opensearch/index-alias).
+* allows
+  * creating OR updating mappings & fields | index
+    * ❌ONCE ALREADY exists data -> NOT possible to update❌
+      * ALTERNATIVE
+        * create a NEW index / has desired mappings
+        * map ALL old index's documents -- , via [reindex API operation](/opensearch-documentation/_im-plugin/reindex-data.md), to the -- NEW index
+          * if you do NOT want any downtime | re-index your indexes -> use [aliases](/opensearch-documentation/_im-plugin/reindex-data.md)
 
 ## Endpoints
 
@@ -25,10 +29,11 @@ PUT /<target-index>/_mapping
 PUT /<target-index1>,<target-index2>/_mapping
 ```
 
-
 ## Path parameters
 
-The only required path parameter is the index with which to associate the mapping. If you don't specify an index, you will get an error. You can specify a single index, or multiple indexes separated by a comma as follows:
+The only required path parameter is the index with which to associate the mapping
+* If you don't specify an index, you will get an error
+* You can specify a single index, or multiple indexes separated by a comma as follows:
 
 ```json
 PUT /<target-index>/_mapping
@@ -37,7 +42,8 @@ PUT /<target-index1>,<target-index2>/_mapping
 
 ## Query parameters
 
-Optionally, you can add query parameters to make a more specific request. For example, to skip any missing or closed indexes in the response, you can add the `ignore_unavailable` query parameter to your request as follows:
+Optionally, you can add query parameters to make a more specific request
+* For example, to skip any missing or closed indexes in the response, you can add the `ignore_unavailable` query parameter to your request as follows:
 
 ```json
 PUT /sample-index/_mapping?ignore_unavailable
