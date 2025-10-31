@@ -1,0 +1,17 @@
+sample-pipeline:
+  workers: 4            # Number of workers   ==    CONCURRENT threads / process events -- from -- the buffer
+  delay: 100            # interval | milliseconds / workers run
+  source:
+    # read data | file
+    file:
+      path: <path/to/input-file>
+  buffer:
+    bounded_blocking:
+      buffer_size: 1024   # max number of events / accepted by the buffer
+      batch_size: 256     # max number of events / buffer drain / EACH read
+  processor:
+    - string_converter:
+        upper_case: true
+  sink:
+    - file:
+        path: <path/to/output-file>

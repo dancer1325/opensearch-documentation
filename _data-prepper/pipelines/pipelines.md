@@ -10,33 +10,28 @@ redirect_from:
 
 # Pipelines
 
-Pipelines are critical components that streamline the process of acquiring, transforming, and loading data from various sources into a centralized data repository or processing system. The following diagram illustrates how OpenSearch Data Prepper ingests data into OpenSearch.
+* Pipelines
+  * == 👀Data Prepper component👀
+    * == pluggable components
+    * == 👀[1 source](configuration/sources) + [>=1 sink](configuration/sinks) + [1 OPTIONAL buffer](configuration/buffers) + [>=1 OPTIONAL processors](configuration/processors)👀
+      * if buffer is missing -> use the default `bounded_blocking` buffer
+      * if procesor is missing -> use no-op processor
+  * allows
+    * customizing the ingestion
+  * 👀\>=1 Pipelines / 1! Data Prepper instance👀
+  * == ETL (extract + transform + load) process
 
-<img src="{{site.url}}{{site.baseurl}}/images/data-prepper-pipeline.png" alt="Data Prepper pipeline">{: .img-fluid}
+![](/opensearch-documentation/images/data-prepper-pipeline.png)
 
-## Configuring Data Prepper pipelines
+## Data Prepper pipelines configuration
 
-Pipelines are defined in the configuration YAML file. Starting with Data Prepper 2.0, you can define pipelines across multiple YAML configuration files, with each file containing the configuration for one or more pipelines. This gives you flexibility to organize and chain together complex pipeline configurations. To ensure proper loading of your pipeline configurations, place the YAML configuration files in the `pipelines` folder in your application's home directory, for example, `/usr/share/data-prepper`.
-
-The following is an example configuration:
-
-```yml
-simple-sample-pipeline:
-  workers: 2 # the number of workers
-  delay: 5000 # in milliseconds, how long workers wait between read attempts
-  source:
-    random:
-  buffer:
-    bounded_blocking:
-      buffer_size: 1024 # max number of records the buffer accepts
-      batch_size: 256 # max number of records the buffer drains after each read
-  processor:
-    - string_converter:
-        upper_case: true
-  sink:
-    - stdout:
-```
-{% include copy.html %}
+* pipeline configuration
+  * == 💡yaml file(S)💡
+    * \>=1 pipelines defined / EACH file
+    * | Data Prepper 2.0+
+      * 👀you can define pipelines | >1 YAML configuration files👀
+    * recommendations
+      * 👀place | your application's home directory's "pipelines/"👀
 
 ### Pipeline components
 

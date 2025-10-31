@@ -1,0 +1,10 @@
+sample-pipeline:
+  source:
+    # read data | file
+    file:
+      path: <path/to/input-file>
+  sink:
+    # write data | ANOTHER file
+    - file:
+        path: <path/to/output-file>
+  # buffer & processor are NOT specified -> default ones

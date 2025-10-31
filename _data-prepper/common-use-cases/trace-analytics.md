@@ -9,6 +9,8 @@ nav_order: 60
 
 Trace analytics allows you to collect trace data and customize a pipeline that ingests and transforms the data for use in OpenSearch. The following provides an overview of the trace analytics workflow in OpenSearch Data Prepper, how to configure it, and how to visualize trace data.
 
+visualize event flows and identify performance problems
+
 ## Introduction
 
 When using Data Prepper as a server-side component to collect trace data, you can customize a Data Prepper pipeline to ingest and transform the data for use in OpenSearch. Upon transformation, you can visualize the transformed trace data for use with the Observability plugin inside of OpenSearch Dashboards. Trace data provides visibility into your application's performance, and helps you gain more information about individual traces.

@@ -11,7 +11,11 @@ redirect_from:
 
 # OpenSearch Dashboards
 
-OpenSearch Dashboards is the user interface that lets you visualize your OpenSearch data and run and scale your OpenSearch clusters.
+* == UI /
+  * allows you to,
+    * visualize your OpenSearch data
+    * run & scale your OpenSearch clusters
+* == OpenSearch data visualization UI
 
 ## Getting started
 
