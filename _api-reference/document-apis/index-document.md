@@ -11,38 +11,31 @@ redirect_from:
 **Introduced 1.0**
 {: .label .label-purple}
 
-You can use the `Index document` operation to add a single document to your index.
-
+* allows
+  * adding 1! document | your index
 
 ## Endpoints
 
-```json
-PUT <index>/_doc/<_id>
-POST <index>/_doc
+* `_doc`
+  ```
+  # CONTROL the create OR update of the document
+  PUT <indexInWhichAddDocument>/_doc/<documentId>
+  
+  # add document / AUTOGENERATE documentId
+  POST <indexInWhichAddDocument>/_doc
+  ```
 
-PUT <index>/_create/<_id>
-POST <index>/_create/<_id>
-```
 
-- PUT adds or updates documents in the index with a specified ID. Used for controlled document creation or updates.
-- POST adds documents with auto-generated IDs to the index. Useful for adding new documents without specifying IDs.
-- `_create` is a type identifier indicating that document creation should only occur if the document with the specified ID doesn't already exist.
-- `<index>` represents the name of the index to which the document will be added.
-- `<_id>` represents the unique identifier of the document.
-
-## Adding a sample index 
-
-Sample data can be added to the index with curl commands in the terminal or through the API.
-
-To test the Document APIs, add a document by following these steps:
-1. Open OpenSearch Dashboards.
-2. Navigate to the actions menu. 
-3. In the **Management** section, choose **Dev Tools**.
-4. Enter a command, and then select the green triangle play button to send the request. The following are some example commands.
-
+* `_create`
+  * ⚠️create the document ONLY if the `documentId` does NOT exist⚠️
+    ```
+    PUT <indexInWhichAddDocument>/_create/<documentId>
+    POST <indexInWhichAddDocument>/_create/<documentId>
+    ```
 
 ## Path parameters
 
+* TODO: 
 Parameter | Type | Description | Required
 :--- | :--- | :--- | :---
 &lt;index&gt; | String | Name of the index. | Yes

@@ -1,0 +1,51 @@
+###
+PUT {{OPENSEARCH_HOST}}/products/_doc/1
+Content-Type: application/json
+
+{
+  "name": "Laptop Gaming",
+  "brand": "ASUS",
+  "price": 1299.99,
+  "category": "Electronics",
+  "in_stock": true
+}
+
+
+###
+POST {{OPENSEARCH_HOST}}/products/_doc
+Content-Type: application/json
+
+{
+  "name": "Wireless Mouse",
+  "brand": "Logitech",
+  "price": 49.99,
+  "category": "Accessories",
+  "in_stock": true
+}
+
+
+###
+PUT {{OPENSEARCH_HOST}}/products/_create/2
+Content-Type: application/json
+
+{
+  "name": "Mechanical Keyboard",
+  "brand": "Corsair",
+  "price": 159.99,
+  "category": "Accessories",
+  "in_stock": false
+}
+
+
+###
+POST {{OPENSEARCH_HOST}}/products/_create/3
+Content-Type: application/json
+
+{
+  "name": "4K Monitor",
+  "brand": "Dell",
+  "price": 399.99,
+  "category": "Displays",
+  "in_stock": true
+}
+
