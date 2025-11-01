@@ -4,31 +4,29 @@ title: Concepts
 nav_order: 70
 ---
 
-# Concepts  
-
-This page defines key terms and concepts related to OpenSearch.
+# Concepts
 
 ## Basic concepts
 
-- [***Document***]({{site.url}}{{site.baseurl}}/getting-started/intro/#document): The basic unit of information in OpenSearch, stored in JSON format.
-- [***Index***]({{site.url}}{{site.baseurl}}/getting-started/intro/#index): A collection of related documents.
+- [***Document***](intro/#document): The basic unit of information in OpenSearch, stored in JSON format.
+- [***Index***](intro/#index): A collection of related documents.
 - [***JSON (JavaScript object notation)***](https://www.json.org/): A text format used to store data in OpenSearch, representing information as key-value pairs.
 - [***Mapping***]({{site.url}}{{site.baseurl}}/mappings/): The schema definition for an index that specifies how documents and their fields should be stored and indexed.
 
 ## Cluster architecture
 
-- [***Node***]({{site.url}}{{site.baseurl}}/getting-started/intro/#clusters-and-nodes): A single server that is part of an OpenSearch cluster.
-- [***Cluster***]({{site.url}}{{site.baseurl}}/getting-started/intro/#clusters-and-nodes): A collection of OpenSearch nodes working together.
-- [***Cluster manager***]({{site.url}}{{site.baseurl}}/getting-started/intro/#clusters-and-nodes): The node responsible for managing cluster-wide operations.
-- [***Shard***]({{site.url}}{{site.baseurl}}/getting-started/intro/#shards): A subset of an index's data; indexes are split into shards for distribution across nodes.
-- [***Primary shard***]({{site.url}}{{site.baseurl}}/getting-started/intro/#primary-and-replica-shards): The original shard containing index data.
-- [***Replica shard***]({{site.url}}{{site.baseurl}}/getting-started/intro/#primary-and-replica-shards): A copy of a primary shard for redundancy and search performance.
+- [***Node***](intro/#clusters-and-nodes): A single server that is part of an OpenSearch cluster.
+- [***Cluster***](intro/#clusters-and-nodes): A collection of OpenSearch nodes working together.
+- [***Cluster manager***](intro/#clusters-and-nodes): The node responsible for managing cluster-wide operations.
+- [***Shard***](intro/#shards): A subset of an index's data; indexes are split into shards for distribution across nodes.
+- [***Primary shard***](intro/#primary-and-replica-shards): The original shard containing index data.
+- [***Replica shard***](intro/#primary-and-replica-shards): A copy of a primary shard for redundancy and search performance.
 
 
 ## Data structures and storage
 
 - [***Doc values***]({{site.url}}{{site.baseurl}}/mappings/mapping-parameters/doc-values/): An on-disk data structure for efficient sorting and aggregating of field values.
-- [***Inverted index***]({{site.url}}{{site.baseurl}}/getting-started/intro/#inverted-index): A data structure that maps words to the documents containing them.
+- [***Inverted index***](intro/#inverted-index): A data structure that maps words to the documents containing them.
 - ***Lucene***: The underlying search library that OpenSearch uses to index and search data.
 - ***Segment***: An immutable unit of data storage within a shard.
 
@@ -63,7 +61,7 @@ This page defines key terms and concepts related to OpenSearch.
 - [***Query string query language***]({{site.url}}{{site.baseurl}}/query-dsl/full-text/query-string/): A simplified query syntax that can be used in URL parameters.
 - [***Dashboards Query Language (DQL)***]({{site.url}}{{site.baseurl}}/dashboards/dql/): A simple text-based query language used specifically for filtering data in OpenSearch Dashboards.
 - [***Piped Processing Language (PPL)***]({{site.url}}{{site.baseurl}}/search-plugins/sql/ppl/index/): A query language that uses pipe syntax (`|`) to chain commands for data processing and analysis. Primarily used for observability use cases in OpenSearch.
-- [***Relevance score***]({{site.url}}{{site.baseurl}}/getting-started/intro/#relevance): A number indicating how well a document matches a query.
+- [***Relevance score***](intro/#relevance): A number indicating how well a document matches a query.
 - [***Aggregation***]({{site.url}}{{site.baseurl}}/aggregations/): A way to analyze and summarize data based on a search query.
 
 ## Vector search concepts
