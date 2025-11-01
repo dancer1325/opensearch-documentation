@@ -25,7 +25,7 @@ Global ordinals are used if a search includes any of the following:
 
 - Bucket aggregations on `keyword`, `ip`, and `flattened` fields. This includes `terms`, `composite`, `diversified_sampler`, and `significant_terms` aggregations.
 - Aggregations on `text` fields that require `fielddata` to be enabled.
-- Parent/child queries using a [`join`]({{site.url}}{{site.baseurl}}/ingest-pipelines/processors/join/) field, such as [`has_child`]({{site.url}}{{site.baseurl}}/query-dsl/joining/has-child/) queries or `parent` aggregations.
+- Parent/child queries using a [`join`]({{site.url}}{{site.baseurl}}/ingest-pipelines/processors/join/) field, such as [`has_child`](/opensearch-documentation/_query-dsl/joining/has-child.md) queries or `parent` aggregations.
 
 
 ## Enabling eager global ordinals on a field

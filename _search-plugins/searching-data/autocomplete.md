@@ -11,7 +11,8 @@ redirect_from:
 
 Autocomplete shows suggestions to users while they type.
 
-For example, if a user types "pop," OpenSearch provides suggestions like "popcorn" or "popsicles." These suggestions preempt your user's intention and lead them to a possible search term more quickly.
+For example, if a user types "pop," OpenSearch provides suggestions like "popcorn" or "popsicles"
+* These suggestions preempt your user's intention and lead them to a possible search term more quickly.
 
 OpenSearch lets you design autocomplete that updates with each keystroke, provides a few relevant suggestions, and tolerates typos.
 
@@ -22,13 +23,15 @@ Implement autocomplete using one of the following methods:
 - [Search as you type](#search-as-you-type)
 - [Completion suggesters](#completion-suggester)
 
-While prefix matching happens at query time, the other three methods happen at index time. All methods are described in the following sections.
+While prefix matching happens at query time, the other three methods happen at index time
+* All methods are described in the following sections.
 
 ## Prefix matching
 
 Prefix matching finds documents that match the last term in a query string.
 
-For example, assume that the user types “qui” into a search UI. To autocomplete this phrase, use the `match_phrase_prefix` query to search for all `text_entry` field values that begin with the prefix "qui":
+For example, assume that the user types “qui” into a search UI
+* To autocomplete this phrase, use the `match_phrase_prefix` query to search for all `text_entry` field values that begin with the prefix "qui":
 
 ```json
 GET shakespeare/_search
@@ -44,10 +47,13 @@ GET shakespeare/_search
 }
 ```
 
-To make the word order and relative positions flexible, specify a `slop` value. To learn about the `slop` option, see [Slop]({{site.url}}{{site.baseurl}}/query-dsl/full-text/match-phrase#slop).
+To make the word order and relative positions flexible, specify a `slop` value
+* To learn about the `slop` option, see [Slop]({{site.url}}{{site.baseurl}}/query-dsl/full-text/match-phrase#slop).
 
-Prefix matching doesn’t require any special mappings. It works with your data as is.
-However, it’s a fairly resource-intensive operation. A prefix of `a` could match hundreds of thousands of terms and not be useful to your user.
+Prefix matching doesn’t require any special mappings
+* It works with your data as is.
+However, it’s a fairly resource-intensive operation
+* A prefix of `a` could match hundreds of thousands of terms and not be useful to your user.
 To limit the impact of prefix expansion, set `max_expansions` to a reasonable number:
 
 ```json
@@ -65,7 +71,8 @@ GET shakespeare/_search
 }
 ```
 
-The maximum number of terms to which the query can expand. Queries “expand” search terms to a number of matching terms that are within the distance specified in `fuzziness`. 
+The maximum number of terms to which the query can expand
+* Queries “expand” search terms to a number of matching terms that are within the distance specified in `fuzziness`. 
 
 The ease of implementing query-time autocomplete comes at the cost of performance.
 When implementing this feature on a large scale, we recommend an index-time solution. With an index-time solution, you might experience slower indexing, but it’s a price you pay only once and not for every query. The edge n-gram, search-as-you-type, and completion suggester methods are index-time solutions.

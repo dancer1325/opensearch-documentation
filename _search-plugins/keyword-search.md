@@ -7,13 +7,17 @@ nav_order: 10
 
 # Keyword search
 
-By default, OpenSearch calculates document scores using the [Okapi BM25](https://en.wikipedia.org/wiki/Okapi_BM25) algorithm. BM25 is a keyword-based algorithm that performs lexical search for words that appear in the query. 
+* == lexical (keyword) text search /
+  * match -- via -- [BM25 algorithm](https://en.wikipedia.org/wiki/Okapi_BM25)
+    * == keyword-based algorithm /
+      * rank documents -- based on -- [TF/IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
+        * TF/IDF == term frequency / inverse document frequency
 
-When determining a document's relevance, BM25 considers [term frequency/inverse document frequency (TF/IDF)](https://en.wikipedia.org/wiki/Tf%E2%80%93idf):
-
-- _Term frequency_ stipulates that documents in which the search term appears more frequently are more relevant. 
-
-- _Inverse document frequency_ gives less weight to the words that commonly appear in all documents in the corpus (for example, articles like "the"). 
+* _Term frequency_
+  * search term / appears MORE frequently | documents -> MORE relevant
+* _Inverse document frequency_
+  * words / appear COMMONLY | documents -> LESS relevant
+    * _Example:_ article "the"
 
 ## Example
 

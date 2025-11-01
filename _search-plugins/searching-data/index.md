@@ -11,8 +11,6 @@ redirect_from:
 
 # Search options
 
-What users expect from search engines has evolved over the years. Just returning relevant results quickly is no longer enough for most users. Now users seek methods that allow them to get even more relevant results, to sort and organize results, and to highlight their queries. OpenSearch includes many search options, described in the following table, that enhance the search experience.
-
 Option | Description
 :--- | :---
 [Autocomplete functionality]({{site.url}}{{site.baseurl}}/opensearch/search/autocomplete/) | Suggest phrases as the user types.

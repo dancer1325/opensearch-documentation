@@ -9,9 +9,12 @@ redirect_from:
 
 # Did-you-mean
 
-The `Did-you-mean` suggester shows suggested corrections for misspelled search terms.
+* `Did-you-mean` suggester
+  * | misspelled search terms,
+    * shows suggested corrections 
 
-For example, if a user types "fliud," OpenSearch suggests a corrected search term like "fluid." You can then suggest the corrected term to the user or even automatically correct the search term.
+For example, if a user types "fliud," OpenSearch suggests a corrected search term like "fluid"
+You can then suggest the corrected term to the user or even automatically correct the search term.
 
 You can implement the `did-you-mean` suggester using one of the following methods:
 

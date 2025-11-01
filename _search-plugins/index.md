@@ -24,17 +24,11 @@ ai:
 
 # Search features
 
-OpenSearch provides many features for customizing your search use cases and improving search relevance. 
-
 ## Search methods
-
-OpenSearch supports the following search methods.
 
 ### Exact matching and keywords
 
-OpenSearch implements lexical (keyword) text search using the BM25 algorithm to match and rank documents based on term frequency and document length.
-
-{% include cards.html cards=page.keyword %}
+* [here](keyword-search.md)
 
 ### Similarity and meaning
 
@@ -84,15 +78,15 @@ To help you fine-tune and improve search relevance, OpenSearch provides several 
   
 ## Search results
 
-OpenSearch supports the following commonly used operations on search results:
-
-- [Paginate]({{site.url}}{{site.baseurl}}/search-plugins/searching-data/paginate/)
-- [Paginate with Point in Time]({{site.url}}{{site.baseurl}}/search-plugins/point-in-time/)
-- [Sort]({{site.url}}{{site.baseurl}}/search-plugins/searching-data/sort/)
-- [Highlight search terms]({{site.url}}{{site.baseurl}}/search-plugins/searching-data/highlight/) 
-- [Autocomplete]({{site.url}}{{site.baseurl}}/search-plugins/searching-data/autocomplete/)
-- [Did-you-mean]({{site.url}}{{site.baseurl}}/search-plugins/searching-data/did-you-mean/) 
+* | search results,
+  * supported operations
+    - [Paginate](searching-data/paginate)
+    - [Paginate with Point in Time](searching-data/point-in-time)
+    - [Sort](searching-data/sort)
+    - [Highlight search terms](searching-data/highlight) 
+    - [Autocomplete](searching-data/autocomplete)
+    - [Did-you-mean](searching-data/did-you-mean) 
 
 ## Search pipelines
 
-You can process search queries and search results with [search pipelines]({{site.url}}{{site.baseurl}}/search-plugins/search-pipelines/index/).
+You can process search queries and search results with [search pipelines](search-pipelines/index/).

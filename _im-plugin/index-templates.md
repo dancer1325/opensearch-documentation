@@ -8,7 +8,11 @@ redirect_from:
 
 # Index templates
 
-Index templates let you initialize new indexes with predefined mappings and settings. For example, if you continuously index log data, you can define an index template so that all of these indexes have the same number of shards and replicas.
+* Index templates
+  * let you 
+    * 👀initialize NEW indexes -- via -- predefined mappings & settings👀
+  * use cases
+    * CONTINUOUSLY index data / have the SAME NUMER of shards & replicas
 
 ### Create a template
 
@@ -131,7 +135,8 @@ HEAD _index_template/<name>
 
 ### Configure multiple templates
 
-You can create multiple index templates for your indexes. If the index name matches more than one template, OpenSearch takes the mappings and settings from the template with the highest priority and applies it to the index.
+You can create multiple index templates for your indexes
+* If the index name matches more than one template, OpenSearch takes the mappings and settings from the template with the highest priority and applies it to the index.
 
 For example, say you have the following two templates that both match the `logs-2020-01-02` index and there’s a conflict in the `number_of_shards` field:
 
@@ -170,7 +175,8 @@ PUT _index_template/template-02
 }
 ```
 
-Because `template-02` has a higher `priority` value, it takes precedence over `template-01` . The `logs-2020-01-02` index would have the `number_of_shards` value as 3 and the `number_of_replicas` as the default value 1.
+Because `template-02` has a higher `priority` value, it takes precedence over `template-01` 
+* The `logs-2020-01-02` index would have the `number_of_shards` value as 3 and the `number_of_replicas` as the default value 1.
 
 ### Delete a template
 
@@ -187,7 +193,8 @@ Managing multiple index templates has the following challenges:
 - If you have duplication between index templates, storing these index templates results in a bigger cluster state.
 - If you want to make a change across all your index templates, you have to manually make the change for each template.
 
-You can use composable index templates to overcome these challenges. Composable index templates let you abstract common settings, mappings, and aliases into a reusable building block called a component template.
+You can use composable index templates to overcome these challenges
+* Composable index templates let you abstract common settings, mappings, and aliases into a reusable building block called a component template.
 
 You can combine component templates to compose an index template.
 
@@ -236,7 +243,8 @@ PUT _component_template/component_template_2
 
 When creating index templates, you need to include the component templates in a `composed_of` list.
 
-OpenSearch applies the component templates in the order in which you specify them within the index template. The settings, mappings, and aliases that you specify inside the index template are applied last.
+OpenSearch applies the component templates in the order in which you specify them within the index template
+* The settings, mappings, and aliases that you specify inside the index template are applied last.
 
 ```json
 PUT _index_template/daily_logs
