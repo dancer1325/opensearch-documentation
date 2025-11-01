@@ -33,7 +33,7 @@ permalink: /getting-started/
 
 - [OpenSearch Dashboards](../_dashboards/index.md)
 - [Data Prepper](../_data-prepper/index.md)
-- [Clients]({{site.url}}{{site.baseurl}}/clients/): Language APIs that let you communicate with OpenSearch in several popular programming languages.
+- [Clients](../_clients/index.md) 
 
 ## Use cases
 

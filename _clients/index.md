@@ -11,33 +11,35 @@ redirect_from:
 
 # OpenSearch language clients
 
-OpenSearch provides clients in JavaScript, Python, Ruby, Java, PHP, .NET, Go, Hadoop, and Rust.
-
-The OpenSearch Java high-level REST client will be deprecated starting with OpenSearch 3.0.0 and will be removed in a future release. Switching to the [Java client]({{site.url}}{{site.baseurl}}/clients/java/) is recommended.
-{: .warning}
+* OpenSearch language clients
+  * let you
+    * communicate with OpenSearch
 
 ## OpenSearch clients
 
-OpenSearch provides clients for the following programming languages and platforms: 
-
 * **Python**
-  * [OpenSearch high-level Python client]({{site.url}}{{site.baseurl}}/clients/python-high-level/)
-  * [OpenSearch low-level Python client]({{site.url}}{{site.baseurl}}/clients/python-low-level/)
-  * [`opensearch-py-ml` client]({{site.url}}{{site.baseurl}}/clients/opensearch-py-ml/)
+  * [OpenSearch high-level Python client](python-high-level)
+  * [OpenSearch low-level Python client](python-low-level)
+  * [`opensearch-py-ml` client](opensearch-py-ml)
 * **Java**
-  * [OpenSearch Java client]({{site.url}}{{site.baseurl}}/clients/java/)
+  * [OpenSearch high-level Java client](java)
+    * | OpenSearch 3.0.0,
+      * ⚠️deprecated⚠️
+    * | OpenSearch v.*.*
+      * ⚠️removed⚠️
+  * [OpenSearch Java client](java)
 * **JavaScript**
-  * [OpenSearch JavaScript (Node.js) client]({{site.url}}{{site.baseurl}}/clients/javascript/index)
+  * [OpenSearch JavaScript (Node.js) client](javascript/index)
 * **Go**
-  * [OpenSearch Go client]({{site.url}}{{site.baseurl}}/clients/go/)
+  * [OpenSearch Go client](go)
 * **Ruby**
-  * [OpenSearch Ruby client]({{site.url}}{{site.baseurl}}/clients/ruby/)
+  * [OpenSearch Ruby client](ruby)
 * **PHP**
-  * [OpenSearch PHP client]({{site.url}}{{site.baseurl}}/clients/php/)
+  * [OpenSearch PHP client](php)
 * **.NET**
-  * [OpenSearch .NET clients]({{site.url}}{{site.baseurl}}/clients/dot-net/)
+  * [OpenSearch .NET clients](dot-net)
 * **Rust**
-  * [OpenSearch Rust client]({{site.url}}{{site.baseurl}}/clients/rust/)
+  * [OpenSearch Rust client](rust)
 * **Hadoop**
   * [OpenSearch Hadoop client](https://github.com/opensearch-project/opensearch-hadoop) 
 
