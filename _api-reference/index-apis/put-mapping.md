@@ -24,21 +24,19 @@ redirect_from:
 
 ## Endpoints
 
-```json
+```
+# specify 1! index
 PUT /<target-index>/_mapping
+
+# specify >1 index
 PUT /<target-index1>,<target-index2>/_mapping
 ```
 
 ## Path parameters
 
-The only required path parameter is the index with which to associate the mapping
-* If you don't specify an index, you will get an error
-* You can specify a single index, or multiple indexes separated by a comma as follows:
-
-```json
-PUT /<target-index>/_mapping
-PUT /<target-index1>,<target-index2>/_mapping
-```
+* `<target-index>`
+  * ⚠️MANDATORY⚠️
+    * if you do NOT specify it -> throws an error
 
 ## Query parameters
 
@@ -99,22 +97,7 @@ You can make the document structure match the structure of the index mapping by 
 
 The following request creates a new mapping for the `sample-index` index:
 
-<!-- spec_insert_start
-component: example_code
-rest: PUT /sample-index/_mapping
-body: |
-{
-  "properties": {
-    "age": {
-      "type": "integer"
-    },
-    "occupation":{
-      "type": "text"
-    }
-  }
-}
--->
-{% capture step1_rest %}
+
 PUT /sample-index/_mapping
 {
   "properties": {

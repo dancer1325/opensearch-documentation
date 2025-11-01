@@ -13,35 +13,54 @@ redirect_from:
 
 # Managing indexes
 
-You index data using the OpenSearch REST API. Two APIs exist: the Index API and the `_bulk` API.
+* 👀OpenSearch REST APIs / index data👀
+  * Index API
+    * use cases
+      * new data arrives incrementally
+      * 1 document / PRETTY large
+        * Reason:🧠bulk API has document's size restrictions🧠
+  * `_bulk` API
+    * use cases
+      * NO frequent data arrives
+        * Reason:🧠generate 1! file / sent -- to -- this API🧠
+      * MANY documentS
+        * Reason:🧠performance🧠
 
-For situations in which new data arrives incrementally (for example, customer orders from a small business), you might use the Index API to add documents individually as they arrive. For situations in which the data flow is less frequent (for example, weekly updates to a marketing website), you might prefer to generate a file and send it to the `_bulk` API. For large numbers of documents, lumping requests together and using the `_bulk` API offers superior performance. If your documents are exceptionally large, however, you might need to index them individually.
-
-When indexing documents, the document `_id` must be 512 bytes or less in size.
-
+* `documentId`
+  * requirements
+    * 's size <= 512 bytes
 
 ## Introduction to indexing
 
-Before you can search data, you must *index* it. Indexing is the method by which search engines organize data for fast retrieval. The resulting structure is called, fittingly, an index.
+* Indexing
+  * ==💡method / organize data -- for -- fast retrieval💡
+  * enables you
+    * search data
 
-In OpenSearch, the basic unit of data is a JSON *document*. Within an index, OpenSearch identifies each document using a unique ID.
+* index
+  * := data structure / indexing's output
+    * JSON *document*
+      * == 👀data basic unit👀 / unique ID
 
-A request sent to the Index API appears as follows:
+### indexing -- via -- Index API
 
-```json
+```
 PUT <index>/_doc/<id>
 { "A JSON": "document" }
 ```
 
-A request to the `_bulk` API looks a little different, because you specify the index and ID in the bulk data:
+### indexing -- via -- `_bulk` API
 
-```json
+ you specify the index and ID in the bulk data:
+
+```
 POST _bulk
 { "index": { "_index": "<index>", "_id": "<id>" } }
 { "A JSON": "document" }
 ```
 
-Bulk data must conform to a specific format, which requires a newline character (`\n`) at the end of every line, including the last line. This is the basic format:
+Bulk data must conform to a specific format, which requires a newline character (`\n`) at the end of every line, including the last line
+* This is the basic format:
 
 ```
 Action and metadata\n
@@ -50,8 +69,19 @@ Action and metadata\n
 Optional document\n
 ```
 
-The document is optional, because `delete` actions don't require a document. The other actions (`index`, `create`, and `update`) all require a document. If you specifically want the action to fail if the document already exists, use the `create` action instead of the `index` action.
-{: .note }
+* `document`
+  * OPTIONAL
+    * Reason: 🧠 
+      * `delete` actions do NOT require a document
+      * `index`, `create`, and `update` require a document 🧠
+
+* `Action`
+  * ALLOWED ones
+    * `index`
+      * if the document ALREADY exists -> the action does NOT fail
+    * `create`
+      * if the document ALREADY exists -> the action fails 
+    * `update`
 
 To index bulk data using the `curl` command, navigate to the folder where you have your file saved and run the following command:
 
@@ -59,9 +89,13 @@ To index bulk data using the `curl` command, navigate to the folder where you ha
 curl -H "Content-Type: application/x-ndjson" -POST https://localhost:9200/data/_bulk -u 'admin:admin' --insecure --data-binary "@data.json"
 ```
 
-If any one of the actions in the `_bulk` API fail, OpenSearch continues to execute the other actions. Examine the `items` array in the response to figure out what went wrong. The entries in the `items` array are in the same order as the actions specified in the request.
+If any one of the actions in the `_bulk` API fail, OpenSearch continues to execute the other actions
+* Examine the `items` array in the response to figure out what went wrong
+* The entries in the `items` array are in the same order as the actions specified in the request.
 
-OpenSearch automatically creates an index when you add a document to an index that doesn't already exist. It also automatically generates an ID if you don't specify an ID in the request. This simple example automatically creates the movies index, indexes the document, and assigns it a unique ID:
+OpenSearch automatically creates an index when you add a document to an index that doesn't already exist
+* It also automatically generates an ID if you don't specify an ID in the request
+* This simple example automatically creates the movies index, indexes the document, and assigns it a unique ID:
 
 ```json
 POST movies/_doc

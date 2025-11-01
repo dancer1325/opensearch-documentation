@@ -1,0 +1,4 @@
+{"index": {"_index": "movies", "_id": "1"}}
+{"title": "First Movie"}
+{"index": {"_index": "movies", "_id": "2"}}
+{"title": "Second Movie"}

@@ -1,0 +1,22 @@
+### TODO: create an index
+
+
+
+### PUT
+PUT {{OPENSEARCH_HOST_HTTPS}}/sample-index/_mapping
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=           # admin/admn        base64 encoded
+
+{
+  "properties": {
+    "age": {
+      "type": "integer"
+    },
+    "occupation":{
+      "type": "text"
+    }
+  }
+}
+
+###
+

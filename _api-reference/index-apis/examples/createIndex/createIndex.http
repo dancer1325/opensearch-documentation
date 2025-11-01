@@ -1,0 +1,120 @@
+### ========================================
+### 1. CREATE INDEX VIA DOCUMENT (Automatic)
+### ========================================
+
+### Create index automatically by indexing a document
+PUT {{OPENSEARCH_HOST}}/auto-created-index/_doc/1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "name": "John Doe",
+  "age": 30,
+  "email": "john@example.com",
+  "created_at": "2024-01-15"
+}
+
+### Verify auto-created index
+GET {{OPENSEARCH_HOST}}/auto-created-index
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+### Check auto-generated mappings
+GET {{OPENSEARCH_HOST}}/auto-created-index/_mapping
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+
+### ========================================
+### 2.  CREATE EMPTY INDEX (Explicit)
+### ========================================
+
+### Create empty index with no settings or mappings
+PUT {{OPENSEARCH_HOST}}/empty-index
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{}
+
+### Create empty index with minimal settings
+PUT {{OPENSEARCH_HOST}}/empty-index-with-settings
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  }
+}
+
+### Verify empty indexes
+GET {{OPENSEARCH_HOST}}/empty-index
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+### Check empty index mappings (should be empty)
+GET {{OPENSEARCH_HOST}}/empty-index/_mapping
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+### Add document to empty index (will create dynamic mapping)
+PUT {{OPENSEARCH_HOST}}/empty-index/_doc/1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "title": "Sample Document",
+  "price": 99.99,
+  "active": true
+}
+
+### Check mappings after adding document
+GET {{OPENSEARCH_HOST}}/empty-index/_mapping
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+
+
+### ========================================
+### 3.  ALLOWED configurations / set                     settings, mappings and aliases
+### ========================================
+
+
+### Create index with settings, mappings and aliases
+PUT {{OPENSEARCH_HOST}}/sample-index1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 2,
+      "number_of_replicas": 1
+    }
+  },
+  "mappings": {
+    "properties": {
+      "age": {
+        "type": "integer"
+      }
+    }
+  },
+  "aliases": {
+    "sample-alias1": {}
+  }
+}
+
+### Verify index creation
+GET {{OPENSEARCH_HOST}}/sample-index1
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+### Check index mappings
+GET {{OPENSEARCH_HOST}}/sample-index1/_mapping
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+### Check index settings
+GET {{OPENSEARCH_HOST}}/sample-index1/_settings
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+### Check aliases
+GET {{OPENSEARCH_HOST}}/_alias/sample-alias1
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+
+
