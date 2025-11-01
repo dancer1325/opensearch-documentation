@@ -1,0 +1,67 @@
+### 1. Create index / join field mapping: brand - product
+PUT {{OPENSEARCH_HOST_HTTPS}}/testindex1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "mappings": {
+    "properties": {
+      "product_to_brand": {
+        "type": "join",
+        "relations": {
+          "brand": "product"
+        }
+      }
+    }
+  }
+}
+
+### 2. Index parent document (Brand) / join field type
+### 2.1
+PUT {{OPENSEARCH_HOST_HTTPS}}/testindex1/_doc/1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "name": "Brand 1",
+  "product_to_brand": {
+    "name": "brand"
+  }
+}
+
+### 2.2 shortcut WITHOUT object notation
+PUT {{OPENSEARCH_HOST_HTTPS}}/testindex1/_doc/1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "name": "Brand 1",
+  "product_to_brand" : "brand"
+}
+
+### 3. index 2 child documents | DIFFERENT parent
+### 3.1 FIRST child
+PUT {{OPENSEARCH_HOST_HTTPS}}/testindex1/_doc/3?routing=1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "name": "Product 1",
+  "product_to_brand": {
+    "name": "product",
+    "parent": "1"
+  }
+}
+
+### 3.2 SECOND child
+PUT {{OPENSEARCH_HOST_HTTPS}}/testindex1/_doc/4?routing=1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "name": "Product 2",
+  "product_to_brand": {
+    "name": "product",
+    "parent": "2"
+  }
+}

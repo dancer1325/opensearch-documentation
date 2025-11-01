@@ -15,84 +15,28 @@ redirect_from:
 **Introduced 1.0**
 {: .label .label-purple }
 
-A join field type establishes a parent/child relationship between documents in the same index. 
+* join field type
+  * == 👀parent/child relationship BETWEEN documents | SAME index👀
+  * restrictions
+    * ⚠️1! join field mapping / index⚠️
+    * | index, retrieve, update, or delete a child document,
+      * ⚠️provide the [`routing`](/opensearch-documentation/_mappings/metadata-fields/routing.md) parameter⚠️
+        * Reason:🧠parent & child documents | SAME relation, have to be indexed | SAME shard🧠
+    * ❌NOT ALLOWED MULTIPLE parents❌
+    * | EXISTING join field,
+      * you can add a NEW relation
+    * | EXISTING document,
+      * ONLY if the EXISTING document is ALREADY marked as a parent -> you can add a child document
 
-## Example
-
-Create a mapping to establish a parent/child relationship between products and their brands:
-
-```json
-PUT testindex1
-{
-  "mappings": {
-    "properties": {
-      "product_to_brand": { 
-        "type": "join",
-        "relations": {
-          "brand": "product" 
-        }
-      }
-    }
-  }
-}
-```
-{% include copy-curl.html %}
-
-Then, index a parent document with a join field type:
-
-```json
-PUT testindex1/_doc/1
-{
-  "name": "Brand 1",
-  "product_to_brand": {
-    "name": "brand" 
-  }
-}
-```
-{% include copy-curl.html %}
-
-You can also use a shortcut without object notation to index a parent document:
-
-```json
-PUT testindex1/_doc/1
-{
-  "name": "Brand 1",
-  "product_to_brand" : "brand" 
-}
-```
-{% include copy-curl.html %}
-
-When indexing child documents, you need to specify the `routing` query parameter because parent and child documents in the same parent/child hierarchy must be indexed on the same shard. For more information, see [Routing]({{site.url}}{{site.baseurl}}/mappings/metadata-fields/routing/). Each child document refers to its parent's ID in the `parent` field.
-
-Index two child documents, one for each parent:
-
-```json
-PUT testindex1/_doc/3?routing=1
-{
-  "name": "Product 1",
-  "product_to_brand": {
-    "name": "product", 
-    "parent": "1" 
-  }
-}
-```
-{% include copy-curl.html %}
-
-```json
-PUT testindex1/_doc/4?routing=1
-{
-  "name": "Product 2",
-  "product_to_brand": {
-    "name": "product", 
-    "parent": "1" 
-  }
-}
-```
-{% include copy-curl.html %}
+* child document
+  * 's `parent` field
+    * == parent's ID
+    * == way -- to -- refer to its parent
 
 ## Querying a join field
 
-When you query a join field, the response contains subfields that specify whether the returned document is a parent or a child. For child objects, the parent ID is also returned.
+When you query a join field, the response contains subfields that specify whether the returned document is a parent or a child
+* For child objects, the parent ID is also returned.
 
 ### Search for all documents
 
@@ -302,7 +246,8 @@ The response returns Brand 1 as Product 1's parent:
 
 ## Parent with many children
 
-One parent can have many children. Create a mapping with multiple children:
+One parent can have many children
+* Create a mapping with multiple children:
 
 ```json
 PUT testindex1
@@ -321,13 +266,7 @@ PUT testindex1
 ```
 {% include copy-curl.html %}
 
-## Join field type notes 
 
-- There can only be one join field mapping in an index.
-- You need to provide the routing parameter when retrieving, updating, or deleting a child document. This is because parent and child documents in the same relation have to be indexed on the same shard.
-- Multiple parents are not supported. 
-- You can add a child document to an existing document only if the existing document is already marked as a parent.
-- You can add a new relation to an existing join field.
 
 ## Next steps
 

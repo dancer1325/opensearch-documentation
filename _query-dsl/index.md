@@ -16,11 +16,19 @@ redirect_from:
 
 {%- comment -%}The `/docs/opensearch/query-dsl/` redirect is specifically to support the UI links in OpenSearch Dashboards 1.0.0.{%- endcomment -%}
 
-# Query DSL
+# Query DSL (Domain Specific Language)
 
-OpenSearch provides a search language called *query domain-specific language (DSL)* that you can use to search your data. Query DSL is a flexible language with a JSON interface.
-
-With query DSL, you need to specify a query in the `query` parameter of the search. One of the simplest searches in OpenSearch uses the `match_all` query, which matches all documents in an index:
+* Query DSL
+  * == search language /
+    * flexible
+    * built-in JSON interface
+    * provided by
+      * OpenSearch
+    * uses
+      * search your data
+  * requirements
+    * specify a query | `query` parameter
+* One of the simplest searches in OpenSearch uses the `match_all` query, which matches all documents in an index:
 
 ```json
 GET testindex/_search
@@ -32,7 +40,8 @@ GET testindex/_search
 }
 ```
 
-A query can consist of many query clauses. You can combine query clauses to produce complex queries. 
+A query can consist of many query clauses
+* You can combine query clauses to produce complex queries. 
 
 Broadly, you can classify queries into two categories---*leaf queries* and *compound queries*:
 

@@ -7,26 +7,38 @@ has_children: false
 
 # Tuning your cluster for indexing speed
 
-The following configurations demonstrated an improvement in throughput of around 60% when
-running an indexing-only workload as compared to the out-of-the-box experience. The workload did not
-incorporate search or other scenarios. Only the OpenSearch server process was run on the machines,
-with the benchmark clients hosted on a different node.
-
-The execution environment was comprised of Intel EC2 instances (r7iz.2xlarge) in the AWS Cloud, and the
-workload used was the StackOverflow dataset available as part of OpenSearch Benchmark.
+* performance benchmark
+  * scenario
+    * Intel EC2 instances (r7iz.2xlarge) | AWS Cloud /
+      * node / host benchmark clients != node / host OpenSearch server
+    * workload
+      * [StackOverflow](https://github.com/opensearch-project/opensearch-benchmark-workloads/tree/main/so)
+      * indexing ONLY
+  * output
+    * index ONLY configuration vs default configuration: 60%
+      * index ONLY == NOT search ...
 
 ## Java heap size
 
-A larger Java heap size is useful for indexing. Setting the Java min and max heap sizes to 50% of the RAM
-size shows better indexing performance on EC2 instances.
+* recommendations 
+  * Java heap size large
+    * Reason: 🧠| index, useful🧠
+  * Java min & max heap sizes == 50% of the RAM size
 
 ## Flush translog threshold
 
-The default value for `flush_threshold_size` is 512 MB. This means that the translog is flushed when it reaches 512 MB. The weight of the indexing load determines the frequency of the translog. When you increase `index.translog.flush_threshold_size`, the node performs the translog operation less frequently. Because flushes are resource-intensive operations, reducing the frequency of translogs improves indexing performance. By increasing the flush threshold size, the OpenSearch cluster also creates fewer large segments instead of multiple small segments. Large segments merge less often, and more threads are used for indexing instead of merging.
+The default value for `flush_threshold_size` is 512 MB
+* This means that the translog is flushed when it reaches 512 MB
+* The weight of the indexing load determines the frequency of the translog
+* When you increase `index.translog.flush_threshold_size`, the node performs the translog operation less frequently
+* Because flushes are resource-intensive operations, reducing the frequency of translogs improves indexing performance
+* By increasing the flush threshold size, the OpenSearch cluster also creates fewer large segments instead of multiple small segments
+* Large segments merge less often, and more threads are used for indexing instead of merging.
 
 For pure indexing workloads, consider increasing the `flush_threshold_size` to 25% of the Java heap size, for example, to improve indexing performance.
 
-An increased `index.translog.flush_threshold_size` can also increase the time that it takes for a translog to complete. If a shard fails, then recovery takes more time because the translog is larger.
+An increased `index.translog.flush_threshold_size` can also increase the time that it takes for a translog to complete
+* If a shard fails, then recovery takes more time because the translog is larger.
 {: .note}
 
 Before increasing `index.translog.flush_threshold_size`, call the following API operation to get current flush operation statistics:
@@ -36,7 +48,8 @@ GET /<index>/_stats/flush?pretty
 ```
 {% include copy-curl.html %}
 
-In the output, note the number of flushes and the total time. The following example output shows that there are 124 flushes, which took 17,690 milliseconds:
+In the output, note the number of flushes and the total time
+* The following example output shows that there are 124 flushes, which took 17,690 milliseconds:
 
 ```json
 {
@@ -72,7 +85,8 @@ GET /<index>/_stats/flush
 ```
 {% include copy-curl.html %}
 
-It's a best practice to increase the `index.translog.flush_threshold_size` only for the current index. After you confirm the outcome, apply the changes to the index template.
+It's a best practice to increase the `index.translog.flush_threshold_size` only for the current index
+* After you confirm the outcome, apply the changes to the index template.
 {: .note}
 
 ## Index refresh interval

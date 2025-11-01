@@ -15,13 +15,18 @@ redirect_from:
 **Introduced 1.0**
 {: .label .label-purple }
 
-A nested field type is a special type of [object field type]({{site.url}}{{site.baseurl}}/opensearch/supported-field-types/object/). 
+* `nested` field type
+  * == [`object` field type](object)'s special type  
 
-Any object field can take an array of objects. Each of the objects in the array is dynamically mapped as an object field type and stored in flattened form. This means that the objects in the array are broken down into individual fields, and values for each field across all objects are stored together. It is sometimes necessary to use the nested type to preserve a nested object as a whole so that you can perform a search on it.
+Any object field can take an array of objects
+* Each of the objects in the array is dynamically mapped as an object field type and stored in flattened form
+* This means that the objects in the array are broken down into individual fields, and values for each field across all objects are stored together
+* It is sometimes necessary to use the nested type to preserve a nested object as a whole so that you can perform a search on it.
 
 ## Flattened form
 
-By default, each of the nested objects is dynamically mapped as object field type. Any object field can take an array of objects. 
+By default, each of the nested objects is dynamically mapped as object field type
+* Any object field can take an array of objects. 
 
 ```json
 PUT testindex1/_doc/100

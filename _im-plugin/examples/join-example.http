@@ -1,0 +1,29 @@
+### Create index with join field mapping
+PUT {{OPENSEARCH_HOST_HTTPS}}/testindex1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "mappings": {
+    "properties": {
+      "product_to_brand": { 
+        "type": "join",
+        "relations": {
+          "brand": "product" 
+        }
+      }
+    }
+  }
+}
+
+### Index parent document (Brand)
+PUT {{OPENSEARCH_HOST_HTTPS}}/testindex1/_doc/1
+Content-Type: application/json
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+{
+  "name": "Brand 1",
+  "product_to_brand": {
+    "name": "brand" 
+  }
+}
