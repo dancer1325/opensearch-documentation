@@ -13,26 +13,37 @@ redirect_from:
 
 # About Security Analytics
 
+* Security Analytics
+  * == 👀SIEM solution👀
+    * == security information + event management
+    * out-of-the-box solution / installed AUTOMATICALLY | ANY OpenSearch distribution
+      * == tools + features /
+        * define detection parameters, 
+        * generate alerts,
+        * respond effectively -- to -- potential threats 
+    * 's goal
+      * about POSSIBLE security threats
+        * investigate, 
+        * detect,
+        * analyze,
+        * respond to
 
-Security Analytics is a security information and event management (SIEM) solution for OpenSearch, designed to investigate, detect, analyze, and respond to security threats that can jeopardize the success of businesses and organizations and their online operations. These threats include the potential exposure of confidential data, cyber attacks, and other adverse security events. Security Analytics provides an out-of-the-box solution that installs automatically with any OpenSearch distribution. It includes the tools and features necessary for defining detection parameters, generating alerts, and responding effectively to potential threats.
+* _Example of POSSIBLE security threats:_ exposure of confidential data, cyber attacks
 
+## Resources and information
 
-### Resources and information
+* [Security Analytics Github repository](https://github.com/opensearch-project/security-analytics)
 
-As part of the OpenSearch Project, Security Analytics exists in the open source community and benefits from the feedback and contributions of that community. To learn more about proposals for its development, options for making contributions, and general information on the platform, see the [Security Analytics repository](https://github.com/opensearch-project/security-analytics) at GitHub.
-
-If you would like to leave feedback that could help improve Security Analytics, join the discussion on the [OpenSearch forum](https://forum.opensearch.org/c/plugins/security-analytics/73).
-
-
----
 ## Components and concepts
 
-Security Analytics includes a number of tools and features elemental to its operation. The major components that compose the plugin are summarized in the following sections.
-
+* TODO: Security Analytics includes a number of tools and features elemental to its operation
+* The major components that compose the plugin are summarized in the following sections.
 
 ### Detectors
 
-Detectors are core components that are configured to identify a range of cybersecurity threats corresponding to an ever-growing knowledge base of adversary tactics and techniques maintained by the [MITRE ATT&CK](https://attack.mitre.org/) organization. Detectors use log data to evaluate events occurring in the system. They then apply a set of security rules specified for the detector and determine findings from these events.
+Detectors are core components that are configured to identify a range of cybersecurity threats corresponding to an ever-growing knowledge base of adversary tactics and techniques maintained by the [MITRE ATT&CK](https://attack.mitre.org/) organization
+* Detectors use log data to evaluate events occurring in the system
+* They then apply a set of security rules specified for the detector and determine findings from these events.
 
 For information about configuring detectors, see [Creating detectors]({{site.url}}{{site.baseurl}}/security-analytics/sec-analytics-config/detectors-config/).
 

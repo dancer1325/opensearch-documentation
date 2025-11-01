@@ -46,25 +46,23 @@ redirect_from:
 
 ## Legacy clients
 
-Clients that work with Elasticsearch OSS 7.10.2 should work with OpenSearch 1.x. The latest versions of those clients, however, might include license or version checks that artificially break compatibility. The following table provides recommendations for which client versions to use for best compatibility with OpenSearch 1.x. For OpenSearch 2.0 and later, no Elasticsearch clients are fully compatible with OpenSearch.
+* == clients / work with Elasticsearch OSS 7.10.2
+  * | OpenSearch 1.x,
+    * ⚠️should work ⚠️
 
-While OpenSearch and Elasticsearch share several core features, mixing and matching the client and server has a high risk of errors and unexpected results. As OpenSearch and Elasticsearch continue to diverge, such risks may increase. Although your Elasticsearch client may continue working with your OpenSearch cluster, using OpenSearch clients for OpenSearch clusters is recommended.
-{: .warning}
+        Client | Recommended version / BEST compatibility with OpenSearch 1.x
+        :--- | :---
+        [Elasticsearch Java low-level REST client](https://central.sonatype.com/artifact/org.elasticsearch.client/elasticsearch-rest-client/7.13.4) | 7.13.4
+        [Elasticsearch Java high-level REST client](https://central.sonatype.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client/7.13.4) | 7.13.4
+        [Elasticsearch Python client](https://pypi.org/project/elasticsearch/7.13.4/) | 7.13.4
+        [Elasticsearch Node.js client](https://www.npmjs.com/package/@elastic/elasticsearch/v/7.13.0) | 7.13.0
+        [Elasticsearch Ruby client](https://rubygems.org/gems/elasticsearch/versions/7.13.0) | 7.13.0
 
-To view the compatibility matrix for a specific client, see the `COMPATIBILITY.md` file in the client's repository.
+  * | OpenSearch 2.0+,
+    * NO FULLY compatible 
+  * clients' latest versions
+    * might be broken
 
-Client | Recommended version
-:--- | :---
-[Elasticsearch Java low-level REST client](https://central.sonatype.com/artifact/org.elasticsearch.client/elasticsearch-rest-client/7.13.4) | 7.13.4
-[Elasticsearch Java high-level REST client](https://central.sonatype.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client/7.13.4) | 7.13.4
-[Elasticsearch Python client](https://pypi.org/project/elasticsearch/7.13.4/) | 7.13.4
-[Elasticsearch Node.js client](https://www.npmjs.com/package/@elastic/elasticsearch/v/7.13.0) | 7.13.0
-[Elasticsearch Ruby client](https://rubygems.org/gems/elasticsearch/versions/7.13.0) | 7.13.0
-
-If you test a legacy client and verify that it works, please [submit a PR](https://github.com/opensearch-project/documentation-website/pulls) and add it to this table.
-
-
-{% comment %}
 ## Python 3 test code
 
 This code indexes a single document and is equivalent to `PUT /python-test-index1/_doc/1`.

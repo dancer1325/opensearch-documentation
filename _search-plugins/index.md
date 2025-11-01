@@ -26,6 +26,8 @@ ai:
 
 ## Search methods
 
+* choose -- based on -- your application
+
 ### Exact matching and keywords
 
 * [here](keyword-search.md)

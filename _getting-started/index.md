@@ -37,13 +37,11 @@ permalink: /getting-started/
 
 ## Use cases
 
-OpenSearch supports a variety of use cases, for example:
-
-- [Observability]({{site.url}}{{site.baseurl}}/observing-your-data/): Visualize data-driven events by using Piped Processing Language (PPL) to explore, discover, and query data stored in OpenSearch.
-- [Search]({{site.url}}{{site.baseurl}}/search-plugins/): Choose the best search method for your application, from regular lexical search to conversational search powered by machine learning (ML).
-- [Machine learning]({{site.url}}{{site.baseurl}}/ml-commons-plugin/): Integrate ML models into your OpenSearch application.
-- [Security analytics]({{site.url}}{{site.baseurl}}/security-analytics/): Investigate, detect, analyze, and respond to security threats that can jeopardize organizational success and online operations. 
+- [Observability](../_observing-your-data/index.md)
+- [Search](../_search-plugins/)
+- [Machine learning](../_ml-commons-plugin/)
+- [Security analytics](../_security-analytics/) 
 
 ## Next steps
 
-- See [Introduction to OpenSearch]({{site.url}}{{site.baseurl}}/getting-started/intro/) to learn about essential OpenSearch concepts.
+- [Introduction to OpenSearch](intro)

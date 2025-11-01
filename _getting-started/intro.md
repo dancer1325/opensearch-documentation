@@ -9,6 +9,8 @@ redirect_from:
 
 # Introduction to OpenSearch
 
+* goal
+  * OpenSearch essential concepts
 OpenSearch is a distributed search and analytics engine that supports various use cases, from implementing a search box on a website to analyzing security data for threat detection. The term _distributed_ means that you can run OpenSearch on multiple computers. _Search and analytics_ means that you can search and analyze your data once you ingest it into OpenSearch. No matter your type of data, you can store and analyze it using OpenSearch.
 
 ## Overview
