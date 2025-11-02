@@ -483,7 +483,15 @@ Long-Term Support
 
 **Lucene**
 
-Apache Lucene™ is a high-performance, full-featured search engine library written entirely in Java. OpenSearch uses a modified version of Lucene as the basis for search operations within OpenSearch.
+* Apache Lucene™
+  * == search engine library
+    * high-performance,
+    * FULL-featured
+    * written | Java
+
+* OpenSearch
+  * 's search operations basis
+    * == 👀modified version of Lucene👀
 
 ## M 
 
