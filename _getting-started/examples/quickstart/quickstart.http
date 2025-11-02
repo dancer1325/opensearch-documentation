@@ -1,0 +1,4 @@
+### 1. check OpenSearch is running
+GET {{OPENSEARCH_HOST}}
+
+###
