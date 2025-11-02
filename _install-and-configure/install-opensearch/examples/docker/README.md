@@ -40,4 +40,8 @@ docker pull public.ecr.aws/opensearchproject/opensearch-dashboards
     * admin/admin
 * `export OPENSEARCH_INITIAL_ADMIN_PASSWORD=<custom-admin-password>`
   * == CUSTOM admin password
+* `curl https://localhost:9200 -ku admin:YWRtaW46YWRtaW4=`
+  * `-k`
+    * == `--insecure`
+    * disable hostname checking
 
