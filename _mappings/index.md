@@ -16,13 +16,10 @@ redirect_from:
 # Mappings
 
 * Mappings
-  * == 👀OpenSearch information👀 about
-    * documents
-      * how to store
-      * how to index
-    * ' fields
-      * how to store
-      * how to index
+  * == 👀index schema definition👀/
+    * how to store & index
+      * documents
+      * documents' fields
   * recommendations
     * specify EACH field's data type
       * Reason:🧠storage & querying MORE efficient🧠

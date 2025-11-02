@@ -242,4 +242,4 @@ You successfully deployed your own OpenSearch cluster with OpenSearch Dashboards
 
 ## Next steps
 
-- See [Communicate with OpenSearch]({{site.url}}{{site.baseurl}}/getting-started/communicate/) to learn about how to send requests to OpenSearch.
+- [how to send requests -- to -- OpenSearch](communicate)

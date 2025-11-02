@@ -325,4 +325,4 @@ Once a field is created, you cannot change its type. Changing a field type requi
 
 ## Next steps
 
-- See [Ingest data into OpenSearch]({{site.url}}{{site.baseurl}}/getting-started/ingest-data/) to learn about ingestion options.
+- [ingestion options](ingest-data)

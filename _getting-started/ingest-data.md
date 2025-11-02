@@ -108,4 +108,4 @@ To learn how to use OpenSearch Dashboards to visualize the data, see the [OpenSe
 
 ## Next steps
 
-- See [Search your data]({{site.url}}{{site.baseurl}}/getting-started/search-data/) to learn about search options.
+- [search options](search-data)

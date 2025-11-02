@@ -11,17 +11,31 @@ has_toc: false
 
 # Doc values
 
-By default, most fields are indexed and searchable using the inverted index. The inverted index works by storing a unique sorted list of terms and mapping each term to the documents that contain it.
+* Sorting, aggregations, and field access | scripts,
+  * == operations / find terms -- from -- documents
+  * ❌NOT work -- via -- inverted index❌
 
-Sorting, aggregations, and field access in scripts, however, require a different approach. Instead of finding documents from terms, these operations need to retrieve terms from specific documents.
-
-Doc values make these operations possible. They are an on-disk, column-oriented data structure created at index time. Although they store the same values as the `_source` field, their format is optimized for fast sorting and aggregations.
-
-Doc values are enabled by default on nearly all field types, except for `text` fields. If you know that a field won't be used for sorting, aggregations, or scripting, you can disable doc values in order to reduce disk usage.
+* doc values
+  * == 💡data structure💡 /
+    * on-disk, 
+    * column-oriented
+    * created | index time 
+  * use cases
+    * sorting, aggregations, and field access | scripts,
+  * vs [`_source` field](../metadata-fields/source.md)
+    * store the SAME values
+    * format / optimized -- for -- fast sorting & aggregations
+  * by default,
+    * 👀enabled | ALL field types👀
+      * except for `text` fields
+      * if a field will NOT be used for sorting, aggregations, or scripting -> disable doc values
+        * Reason:🧠reduce disk usage🧠
 
 ## Example
 
-To understand how `doc_values` affect fields, create a sample index. In this index, the `status_code` field  has `doc_values` enabled by default, allowing it to support sorting and aggregations. The `session_id` field has `doc_values` disabled, so it does not support sorting or aggregations but can still be queried:
+To understand how `doc_values` affect fields, create a sample index
+* In this index, the `status_code` field  has `doc_values` enabled by default, allowing it to support sorting and aggregations
+* The `session_id` field has `doc_values` disabled, so it does not support sorting or aggregations but can still be queried:
 
 ```json
 PUT /web_analytics

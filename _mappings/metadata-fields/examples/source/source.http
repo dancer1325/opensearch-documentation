@@ -1,0 +1,14 @@
+### TODO:
+
+### 2. disable the field
+PUT {{OPENSEARCH_HOST_HTTPS}}/sample-index1
+
+{
+  "mappings": {
+    "_source": {
+      "enabled": false
+    }
+  }
+}
+
+### 3. TODO:

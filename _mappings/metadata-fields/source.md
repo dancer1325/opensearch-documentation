@@ -7,32 +7,32 @@ redirect_from:
   - /field-types/metadata-fields/source/
 ---
 
-# Source
+# Source -- `_source` -- 
 
-The `_source` field contains the original JSON document body that was indexed. While this field is not searchable, it is stored so that the full document can be returned when executing fetch requests, such as `get` and `search`.
+* `_source` field
+  * == 👀original JSON document body / was indexed👀
+    * ❌NOT searchable❌
+    * uses
+      * fetch requests / return the FULL document
+        * _Examples:_ `get`, `search`
 
 ## Disabling the field
 
-You can disable the `_source` field by setting the `enabled` parameter to `false`, as shown in the following example request:
+* if you want to disable it -> `mappings._source.enabled` = `false`
 
-```json
-PUT sample-index1
-{
-  "mappings": {
-    "_source": {
-      "enabled": false
-    }
-  }
-}
-```
-{% include copy-curl.html %}
-
-Disabling the `_source` field can impact the availability of certain features, such as the `update`, `update_by_query`, and `reindex` APIs, as well as the ability to debug queries or aggregations using the original indexed document. To support these features without storing the `_source` field explicitly, [Derived source]({{site.url}}{{site.baseurl}}/mappings/metadata-fields/source/#derived-source) can be used without compromising storage constraints.
-{: .warning}
+* | disable it,
+  * impact the 
+    * availability of certain features
+      * _Example:_  `update`, `update_by_query`, and `reindex` APIs
+      * if you want to support them -> use [derived source](#derived-source)
+    * ability to debug queries OR aggregations -- via -- the original indexed document
 
 ## Including or excluding fields
 
-You can selectively control the contents of the `_source` field by using the `includes` and `excludes` parameters. This allows you to prune the stored `_source` field after it is indexed but before it is saved, as shown in the following example request:
+You can selectively control the contents of the `_source` field 
+by using the `includes` and `excludes` parameters
+* This allows you to prune the stored `_source` field after it is indexed but before it is saved, 
+as shown in the following example request:
 
 ```json
 PUT logs
@@ -57,7 +57,9 @@ These fields are not stored in the `_source`, but you can still search them beca
 
 ## Derived source
 
-OpenSearch stores each ingested document in the `_source` field and also indexes individual fields for search. The `_source` field can consume significant storage space. To reduce storage use, you can configure OpenSearch to skip storing the `_source` field and instead reconstruct it dynamically when needed, for example, during `search`, `get`, `mget`, `reindex`, or `update` operations.
+OpenSearch stores each ingested document in the `_source` field and also indexes individual fields for search
+* The `_source` field can consume significant storage space
+* To reduce storage use, you can configure OpenSearch to skip storing the `_source` field and instead reconstruct it dynamically when needed, for example, during `search`, `get`, `mget`, `reindex`, or `update` operations.
 
 To enable derived source, configure the `derived_source` index-level setting:
 
@@ -76,7 +78,9 @@ PUT sample-index1
 ```
 {% include copy-curl.html %}
 
-While skipping the `_source` field can significantly reduce storage requirements, dynamically deriving the source is generally slower than reading a stored `_source`. To avoid this overhead during search queries, do not request the `_source` field when it's not needed. You can do this in the search query by setting the `_source` parameter to `false` (demonstrated in the following example) or providing a list of `include` and `exclude` fields:
+While skipping the `_source` field can significantly reduce storage requirements, dynamically deriving the source is generally slower than reading a stored `_source`
+* To avoid this overhead during search queries, do not request the `_source` field when it's not needed
+* You can do this in the search query by setting the `_source` parameter to `false` (demonstrated in the following example) or providing a list of `include` and `exclude` fields:
 
 ```json
 GET sample-index1/_search
@@ -87,7 +91,8 @@ GET sample-index1/_search
 ```
 {% include copy-curl.html %}
 
-For real-time reads using the [Get Document API]({{site.url}}{{site.baseurl}}/api-reference/document-apis/get-documents/) or [Multi-get Documents API]({{site.url}}{{site.baseurl}}/api-reference/document-apis/multi-get/), which are served from the translog until [`refresh`]({{site.url}}{{site.baseurl}}/api-reference/index-apis/refresh/) happens, performance can be slower when using a derived source. This is because the document must first be ingested temporarily before the source can be reconstructed. You can avoid this additional latency by using an index-level `derived_source.translog` setting that disables generating a derived source during translog reads:
+For real-time reads using the [Get Document API]({{site.url}}{{site.baseurl}}/api-reference/document-apis/get-documents/) or [Multi-get Documents API]({{site.url}}{{site.baseurl}}/api-reference/document-apis/multi-get/), which are served from the translog until [`refresh`]({{site.url}}{{site.baseurl}}/api-reference/index-apis/refresh/) happens, performance can be slower when using a derived source
+* This is because the document must first be ingested temporarily before the source can be reconstructed. You can avoid this additional latency by using an index-level `derived_source.translog` setting that disables generating a derived source during translog reads:
 
 ```json
 PUT sample-index1

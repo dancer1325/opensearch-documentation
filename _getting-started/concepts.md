@@ -8,24 +8,25 @@ nav_order: 70
 
 ## Basic concepts
 
-- [***Document***](intro/#document): The basic unit of information in OpenSearch, stored in JSON format.
-- [***Index***](intro/#index): A collection of related documents.
-- [***JSON (JavaScript object notation)***](https://www.json.org/): A text format used to store data in OpenSearch, representing information as key-value pairs.
-- [***Mapping***]({{site.url}}{{site.baseurl}}/mappings/): The schema definition for an index that specifies how documents and their fields should be stored and indexed.
+- [***Document***](intro.md#document)
+- [***Index***](intro.md#index)
+- [***JSON (JavaScript object notation)***](https://www.json.org/)
+  - [document's format](intro.md#document)
+- [***Mapping***](../_mappings/)
 
 ## Cluster architecture
 
-- [***Node***](intro/#clusters-and-nodes): A single server that is part of an OpenSearch cluster.
-- [***Cluster***](intro/#clusters-and-nodes): A collection of OpenSearch nodes working together.
-- [***Cluster manager***](intro/#clusters-and-nodes): The node responsible for managing cluster-wide operations.
-- [***Shard***](intro/#shards): A subset of an index's data; indexes are split into shards for distribution across nodes.
-- [***Primary shard***](intro/#primary-and-replica-shards): The original shard containing index data.
-- [***Replica shard***](intro/#primary-and-replica-shards): A copy of a primary shard for redundancy and search performance.
+- [***Node***](intro.md#clusters-and-nodes)
+- [***Cluster***](intro.md#clusters-and-nodes)
+- [***Cluster manager***](intro.md#clusters-and-nodes)
+- [***Shard***](intro.md#shards)
+- [***Primary shard***](intro.md#primary-and-replica-shards)
+- [***Replica shard***](intro.md#primary-and-replica-shards)
 
 
 ## Data structures and storage
 
-- [***Doc values***]({{site.url}}{{site.baseurl}}/mappings/mapping-parameters/doc-values/): An on-disk data structure for efficient sorting and aggregating of field values.
+- [***Doc values***](../_mappings/mapping-parameters/doc-values.md)
 - [***Inverted index***](intro/#inverted-index): A data structure that maps words to the documents containing them.
 - ***Lucene***: The underlying search library that OpenSearch uses to index and search data.
 - ***Segment***: An immutable unit of data storage within a shard.

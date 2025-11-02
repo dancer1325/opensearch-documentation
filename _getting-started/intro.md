@@ -21,7 +21,8 @@ redirect_from:
 
 * _document_
   * := 👀unit👀 / stores information (text or structured data)
-    * | [JSON](https://www.json.org/) format
+    * == MOST basic unit of information
+    * 💡| [JSON](https://www.json.org/) format💡
     * == | traditional database, 
       * 1 row
     * == 👀information / returned -- by -- OpenSearch👀
@@ -44,7 +45,7 @@ redirect_from:
 ## Index
 
 * _index_
-  * := collection of documentS 
+  * 👀:= collection of documentS 👀
   * | search for information,
     * you query data | 1 index
   * == | traditional database,
@@ -136,13 +137,13 @@ redirect_from:
 
     ![](/opensearch-documentation/images/intro/cluster-replicas.png)
 
----OpenSearch distributes replica shards to different nodes than their corresponding primary shards---
-
 ## Inverted index
 
 * _inverted index_
   * == data structure /
     * 👀maps words -- to the -- documents | they occur👀
+  * uses
+    * find documents -- from -- terms
   * _Example:_ 
     * 1 index / has 2 documents
       - Document 1: "Beauty is in the eye of the beholder"
@@ -179,4 +180,4 @@ redirect_from:
 
 ## Next steps
 
-- Learn how to install OpenSearch within minutes in [Installation quickstart]({{site.url}}{{site.baseurl}}/getting-started/quickstart/).
+- [how to install OpenSearch](quickstart)
