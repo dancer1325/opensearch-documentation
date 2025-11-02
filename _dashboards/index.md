@@ -70,6 +70,6 @@ By default, the query language in the Discover search toolbar is DQL. To switch 
 
 ## Dev Tools 
 
-| Concept | Description |
-|---------|-------------|
-| [Dev Tools]({{site.url}}{{site.baseurl}}/dashboards/dev-tools/index-dev/) | Learn how to run OpenSearch queries in an integrated console. |
+| Concept                                              | Description                                  |
+|------------------------------------------------------|----------------------------------------------|
+| [Dev Tools](../_dashboards/visualize/run-queries.md) | run OpenSearch queries \| integrated console |

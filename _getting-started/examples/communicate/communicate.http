@@ -1,0 +1,21 @@
+### 1. Sending requests | terminal
+### 1.1 WITH security plugin
+GET {{OPENSEARCH_HOST_HTTPS}}/_cluster/health
+Authorization: Basic {{OPENSEARCH_AUTH}}
+
+### 1.2. WITHOUT security plugin
+GET {{OPENSEARCH_HOST}}/_cluster/health
+
+### 2. pretty
+GET {{OPENSEARCH_HOST}}/_cluster/health?pretty
+
+### 3. request body
+GET {{OPENSEARCH_HOST}}/students/_search?pretty
+Content-Type: application/json
+
+{
+  "query": {
+    "match_all": {}
+  }
+}
+

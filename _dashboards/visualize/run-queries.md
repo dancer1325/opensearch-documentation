@@ -8,19 +8,19 @@ redirect_from:
   - /dashboards/dev-tools/index-dev/
 ---
 
-# Running queries in the Dev Tools console
-
-You can use the OpenSearch Dev Tools console to send queries to OpenSearch. 
+# Running queries | Dev Tools console 
 
 ## Navigating to the console
 
-To open the console, select **Dev Tools** on the main OpenSearch Dashboards page:
+* | OpenSearch Dashboards,
+  * ways to reach the page
+    * Homepage > **Dev Tools** 
 
-<img src="{{site.url}}{{site.baseurl}}/images/dev-tools/dev-tools-main.png" alt="Dev Tools console from main page">{: .img-fluid }
+      ![](/opensearch-documentation/images/dev-tools/dev-tools-main.png)
 
-You can open the console from any other page by navigating to the main menu and selecting **Management** > **Dev Tools**.
+    * **Management** > **Dev Tools**
 
-<img src="{{site.url}}{{site.baseurl}}/images/dev-tools/dev-tools-left.png" width=200 alt="Dev Tools console from all pages">
+      ![](/opensearch-documentation/images/dev-tools/dev-tools-left.png)
 
 ## Writing queries 
 
@@ -53,9 +53,9 @@ OpenSearch displays the response in the response pane on the right side of the c
 
 <img src="{{site.url}}{{site.baseurl}}/images/dev-tools/dev-tools-response.png" alt="Response pane">{: .img-fluid }
 
-## Working in the cURL and console formats
+## console formats vs cURL request format 
 
-The console uses an easier syntax to format REST requests than the `curl` command. 
+* 👀easier syntax👀  
 
 For example, the following `curl` command runs a search query:
 
