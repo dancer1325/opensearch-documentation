@@ -19,3 +19,23 @@ Content-Type: application/json
   }
 }
 
+### 4. indexing documents
+#   4.1                    /<index-name>/_doc/<document-id>
+PUT {{OPENSEARCH_HOST}}/students/_doc/1
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "gpa": 3.89,
+  "grad_year": 2022
+}
+
+### 4.2 index documents WITHOUT providing documentId
+POST {{OPENSEARCH_HOST}}/students/_doc
+Content-Type: application/json
+
+{
+  "name": "Alfred Toledano",
+  "gpa": 3.89,
+  "grad_year": 2017
+}

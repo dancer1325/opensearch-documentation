@@ -47,43 +47,30 @@ nav_order: 30
 
 ### Sending requests | Dev Tools
 
-* To send requests in Dev Tools, use the following steps:
-
-    ```json
-    GET _cluster/health
-    ```
-    {% include copy-curl.html %}
-1. Choose the triangle icon on the upper right of the request to submit the query. You can also submit the request by pressing `Ctrl+Enter` (or `Cmd+Enter` for Mac users). To learn more about using the OpenSearch Dashboards console for submitting queries, see [Running queries in the console]({{site.url}}{{site.baseurl}}/dashboards/run-queries/).
-
-In the following sections, and in most of the OpenSearch documentation, requests are presented in the Dev Tools console format. 
+* [here](/opensearch-documentation/_dashboards/visualize/run-queries.md)
 
 ## Indexing documents
 
-To add a JSON document to an OpenSearch index (that is, to _index_ a document), you send an HTTP request with the following header:
+* == 💡add a JSON document | OpenSearch index💡
+  * 👀if the index does NOT exist -> ALSO create it👀
+* syntaxes
+  * specifying `<document-id>`
 
-```json
-PUT /<index-name>/_doc/<document-id>
-```
+      ```
+      PUT /<index-name>/_doc/<document-id>
+      ```
+  * WITHOUT specifying `<document-id>` -> OpenSearch generates a document ID
+      ```
+      POSTT /<index-name>/_doc
+      ```
 
-For example, to index a document representing a student, send the following request:
-
-```json
-PUT /students/_doc/1
-{
-  "name": "John Doe",
-  "gpa": 3.89,
-  "grad_year": 2022
-}
-```
-{% include copy-curl.html %}
-
-Once you send the preceding request, OpenSearch creates an index called `students` and stores the ingested document in the index. If you don't provide an ID for your document, OpenSearch generates a document ID. In the preceding request, the document ID is specified as the student ID (`1`).
-
-To learn more about indexing, see [Managing indexes]({{site.url}}{{site.baseurl}}/im-plugin/).
+* [managing indexes](/opensearch-documentation/_im-plugin/)
 
 ## Dynamic mapping
 
-When you index a document, OpenSearch infers the field types from the JSON types submitted in the document. This process is called _dynamic mapping_. For more information, see [Dynamic mapping]({{site.url}}{{site.baseurl}}/mappings/#dynamic-mapping).
+When you index a document, OpenSearch infers the field types from the JSON types submitted in the document
+* This process is called _dynamic mapping_
+* For more information, see [Dynamic mapping]({{site.url}}{{site.baseurl}}/mappings/#dynamic-mapping).
 
 To view the inferred field types, send a request to the `_mapping` endpoint:
 

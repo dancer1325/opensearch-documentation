@@ -1,0 +1,93 @@
+---
+services:
+  # Cluster Manager Node: plenty of CPU power & tiny disk -> manage cluster state
+  opensearch-manager:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch-manager
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-manager
+      - node.roles=cluster_manager
+      - discovery.seed_hosts=opensearch-manager,opensearch-data1,opensearch-data2
+      - cluster.initial_cluster_manager_nodes=opensearch-manager
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    cpus: '2.0'          # plenty of CPU power
+    mem_limit: 1g        # moderate RAM
+    # No volume - tiny disk usage
+    networks:
+      - opensearch-net
+
+  # Data Node 1: fast disks & plenty of RAM -> index & search data
+  opensearch-data1:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch-data1
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-data1
+      - node.roles=data,ingest
+      - discovery.seed_hosts=opensearch-manager,opensearch-data1,opensearch-data2
+      - cluster.initial_cluster_manager_nodes=opensearch-manager
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    cpus: '1.0'          # moderate CPU
+    mem_limit: 2g        # plenty of RAM
+    volumes:
+      - opensearch-data1:/usr/share/opensearch/data  # fast disks
+    networks:
+      - opensearch-net
+
+  # Data Node 2: fast disks & plenty of RAM -> index & search data
+  opensearch-data2:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch-data2
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-data2
+      - node.roles=data,ingest
+      - discovery.seed_hosts=opensearch-manager,opensearch-data1,opensearch-data2
+      - cluster.initial_cluster_manager_nodes=opensearch-manager
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    cpus: '1.0'          # moderate CPU
+    mem_limit: 2g        # plenty of RAM
+    volumes:
+      - opensearch-data2:/usr/share/opensearch/data  # fast disks
+    networks:
+      - opensearch-net
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-dashboards
+    ports:
+      - 5601:5601
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch-data1:9200","http://opensearch-data2:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: 'true'
+    networks:
+      - opensearch-net
+
+volumes:
+  opensearch-data1:
+  opensearch-data2:
+
+networks:
+  opensearch-net:

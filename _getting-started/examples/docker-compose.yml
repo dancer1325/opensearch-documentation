@@ -36,6 +36,8 @@ services:
       - '5601'
     environment:
       OPENSEARCH_HOSTS: '["http://opensearch:9200"]'  # Changed to http since security is disabled
+      # 2. demo security plugin disabled    -- ALSO required
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: 'true'
     networks:
       - opensearch-net
 

@@ -64,13 +64,13 @@ redirect_from:
 
 * _nodes_
   * == servers / 
-    * preprocess data BEFORE index
+    * [preprocess data BEFORE index](../_ingest-pipelines)
     * store your data
     * process search requests 
     * manage cluster's state
   * [types](/opensearch-documentation/_tuning-your-cluster/index.md#nodes)
 
-* OpeanSearch
+* OpenSearch
   * 👀ways to run it👀
     * | 1! node
       * MINIMAL system requirement

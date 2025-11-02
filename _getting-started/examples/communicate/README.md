@@ -17,6 +17,14 @@
       }
     }'
     ```
+## Sending requests | Dev Tools
+* http://localhost:5601/
+  * Management > Dev Tools 
+    ```
+    GET _cluster/health
+    ```
+# Indexing documents
+* hit [communicate.http](communicate.http)
 
 ## TODO:
 

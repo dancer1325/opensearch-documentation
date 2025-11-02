@@ -4,4 +4,4 @@
     * Problem1: "OpenSearch Dashboards server is not ready yet" -- "getaddrinfo ENOTFOUND opensearch-node1"}"
       * Solution: `OPENSEARCH_HOSTS` == correct container name
     * Problem2: admin/admin, NOT right password
-      * Solution: TODO:
+      * Solution: `DISABLE_SECURITY_DASHBOARDS_PLUGIN: 'true'`

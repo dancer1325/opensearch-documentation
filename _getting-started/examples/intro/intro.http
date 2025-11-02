@@ -1,0 +1,29 @@
+### 1. get documents
+#   1.1 specific document
+#                       /<index-name>/_doc/<document-id>
+GET {{OPENSEARCH_HOST}}/students/_doc/1
+Content-Type: application/json
+
+### 1.2 ALL documents
+GET {{OPENSEARCH_HOST}}/students/_search?pretty
+
+### 2. about nodes
+### 2.1 == servers
+### 2.1.2 ALL nodes
+GET {{OPENSEARCH_HOST}}/_nodes
+### 2.1.2 cluster's nodes
+GET {{OPENSEARCH_HOST}}/_cat/nodes?v
+### 2.1.3 nodes' statistics
+GET {{OPENSEARCH_HOST}}/_nodes/stats
+### 2.1.4 nodes' specific statistics
+GET {{OPENSEARCH_HOST}}/_nodes/os,process,jvm
+### 2.2 store your data
+GET {{OPENSEARCH_HOST}}/_cat/indices/students?v
+### 2.3 process search requests
+### check search requests performance
+GET {{OPENSEARCH_HOST}}/_cat/nodes?v&h=name,search.query_total,search.query_time,search.fetch_total,search.fetch_time
+### 2.4 manage cluster's state
+### 2.4.1 check cluster manager
+GET {{OPENSEARCH_HOST}}/_cat/master?v
+### 2.5 check number of nodes
+GET http://localhost:9200/_cat/nodes

@@ -45,3 +45,17 @@ docker pull public.ecr.aws/opensearchproject/opensearch-dashboards
     * == `--insecure`
     * disable hostname checking
 
+
+# Configure OpenSearch
+## -- via -- `docker run`
+
+```bash
+docker run \
+  -p 9200:9200 -p 9600:9600 \
+  -e "discovery.type=single-node" \
+  -v /path/to/custom-opensearch.yml:/usr/share/opensearch/config/opensearch.yml \
+  opensearchproject/opensearch:latest
+```
+
+## -- via -- Docker Compose
+* TODO:

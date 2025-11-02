@@ -137,7 +137,8 @@ You can remove unneeded containers manually with `docker container rm <container
   * error logging
   * OpenSearch quits⚠️
   
-- Create an `.env` file in the same folder as your `docker-compose.yml` file with the `OPENSEARCH_INITIAL_ADMIN_PASSWORD` and a strong password value.
+- Create an `.env` file in the same folder as your `docker-compose.yml` file with the
+`OPENSEARCH_INITIAL_ADMIN_PASSWORD` and a strong password value.
 
 ### Password requirements
 
@@ -145,16 +146,26 @@ OpenSearch enforces strong password security by default, using the [`zxcvbn`](ht
 
 This library evaluates passwords based on entropy, rather than rigid complexity rules, using the following guidelines:
 
-- **Focus on entropy, not only rules**: Instead of only adding numbers or special characters, prioritize overall unpredictability. Longer passwords composed of random words or characters provide higher entropy, making them more secure than short passwords that meet conventional complexity rules.
+- **Focus on entropy, not only rules**
+  - Instead of only adding numbers or special characters, prioritize overall unpredictability
+  - Longer passwords composed of random words or characters provide higher entropy, making them more secure than short passwords that meet conventional complexity rules.
 
-- **Avoid common patterns and dictionary words**: The `zxcvbn` library detects commonly used words, dates, sequences (for example, `1234` or `qwerty`), and even predictable character substitutions (for example, `3` for `E`). To ensure strong security, avoid using these patterns in your passwords.
+- **Avoid common patterns and dictionary words**
+  - The `zxcvbn` library detects commonly used words, dates, sequences (for example, `1234` or `qwerty`), 
+  and even predictable character substitutions (for example, `3` for `E`)
+  - To ensure strong security, avoid using these patterns in your passwords.
 
-- **Length matters**: Longer passwords generally offer greater security. For example, a passphrase such as `correct horse battery staple` is considered to be strong because of its length and randomness, even though it does not contain special characters or numbers.
+- **Length matters**
+  - Longer passwords generally offer greater security
+  - For example, a passphrase such as `correct horse battery staple` is considered to be strong because of its length and randomness, 
+  even though it does not contain special characters or numbers.
 
-- **Unpredictability is key**: Whether you choose a string of random characters or a passphrase made of unrelated words, the key to password security is unpredictability. Higher entropy significantly increases the number of required guesses, making the password more resistant to attacks.
+- **Unpredictability is key**
+  - Whether you choose a string of random characters or a passphrase made of unrelated words, the key to password security is unpredictability
+  - Higher entropy significantly increases the number of required guesses, making the password more resistant to attacks.
 
-To learn more about `zxcvbn`, see [this Dropbox blog post](https://dropbox.tech/security/zxcvbn-realistic-password-strength-estimation). To experiment with password strength, use [this demo](https://lowe.github.io/tryzxcvbn). 
-{: .tip}
+To learn more about `zxcvbn`, see [this Dropbox blog post](https://dropbox.tech/security/zxcvbn-realistic-password-strength-estimation)
+To experiment with password strength, use [this demo](https://lowe.github.io/tryzxcvbn). 
 
 OpenSearch uses the following default password requirements:
 
@@ -165,138 +176,27 @@ OpenSearch uses the following default password requirements:
 
 You can customize the default password requirements by updating the [password cluster settings]({{site.url}}{{site.baseurl}}/security/configuration/yaml/#password-settings).
 
-### Sample docker-compose.yml
+### `docker run -e` vs Docker Compose's `environment`
 
-If you override `opensearch_dashboards.yml` settings using environment variables in your compose file, 
-use all uppercase letters and replace periods with underscores (for example, for `opensearch.hosts`, use `OPENSEARCH_HOSTS`)
-This behavior is inconsistent with overriding `opensearch.yml` settings, where the conversion is just a change to the assignment operator 
-(for example, `discovery.type: single-node` in `opensearch.yml` is defined as `discovery.type=single-node` in `docker-compose.yml`).
-
-Verify access to OpenSearch Dashboards by connecting to http://localhost:5601 from a browser
-For OpenSearch 2.12 and later, you must use your configured username and password
-For earlier versions, the default username and password are `admin`
-We do not recommend using this configuration on hosts that are accessible from the public internet until you have customized the security configuration of your deployment.
+* `parent1.child1` == `PARENT1_CHILD1`   
+  * _Example:_ `opensearch.hosts` == `OPENSEARCH_HOSTS`
 
 ## Configure OpenSearch
 
-Unlike the RPM distribution of OpenSearch, which requires a large amount of post-installation configuration, running OpenSearch clusters with Docker allows you to define the environment before the containers are even created. This is possible whether you use Docker or Docker Compose.
+* ".yml" /
+  * by default, hosted | "/usr/share/opensearch/config/opensearch.yml"
 
-For example, take a look at the following command:
-```bash
-docker run \
-  -p 9200:9200 -p 9600:9600 \
-  -e "discovery.type=single-node" \
-  -v /path/to/custom-opensearch.yml:/usr/share/opensearch/config/opensearch.yml \
-  opensearchproject/opensearch:latest
-```
-{% include copy.html %}
-
-By reviewing each part of the command, you can see that it:
-- Maps ports `9200` and `9600` (`HOST_PORT`:`CONTAINER_PORT`).
-- Sets `discovery.type` to `single-node` so that bootstrap checks don't fail for this single-node deployment.
-- Uses the [-v flag](https://docs.docker.com/engine/reference/commandline/run#mount-volume--v---read-only) to pass a local file called `custom-opensearch.yml` to the container, replacing the `opensearch.yml` file included with the image.
-- Requests the `opensearchproject/opensearch:latest` image from Docker Hub.
-- Runs the container.
-
-If you compare this command to the [Sample docker-compose.yml](#sample-docker-composeyml) file, you might notice some common settings, such as the port mappings and the image reference. The command, however, is only deploying a single container running OpenSearch and will not create a container for OpenSearch Dashboards. Furthermore, if you want to use custom TLS certificates, users, or roles, or define additional volumes and networks, then this "one-line" command rapidly grows to an impractical size. That is where the utility of Docker Compose becomes useful.
-
-When you build your OpenSearch cluster with Docker Compose you might find it easier to pass custom configuration files from your host to the container, as opposed to enumerating every individual setting in `docker-compose.yml`. Similar to how the example `docker run` command mounted a volume from the host to the container using the `-v` flag, compose files can specify volumes to mount as a sub-option to the corresponding service. The following truncated YAML file demonstrates how to mount a file or directory to the container. Refer to the official Docker documentation on [volumes](https://docs.docker.com/storage/volumes/) for comprehensive information about volume usage and syntax.
-
-```yml
-services:
-  opensearch-node1:
-    volumes:
-      - opensearch-data1:/usr/share/opensearch/data
-      - ./custom-opensearch.yml:/usr/share/opensearch/config/opensearch.yml
-  opensearch-node2:
-    volumes:
-      - opensearch-data2:/usr/share/opensearch/data
-      - ./custom-opensearch.yml:/usr/share/opensearch/config/opensearch.yml
-  opensearch-dashboards:
-    volumes:
-      - ./custom-opensearch_dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
-```
-{% include copy.html %}
-
-### Sample Docker Compose file for development
-
-If you want to build your own compose file from an example, review the following sample `docker-compose.yml` file. This sample file creates two OpenSearch nodes and one OpenSearch Dashboards node with the Security plugin disabled. You can use this sample file as a starting point while reviewing [Configuring basic security settings](#configuring-basic-security-settings).
-```yml
-services:
-  opensearch-node1:
-    image: opensearchproject/opensearch:latest
-    container_name: opensearch-node1
-    environment:
-      - cluster.name=opensearch-cluster # Name the cluster
-      - node.name=opensearch-node1 # Name the node that will run in this container
-      - discovery.seed_hosts=opensearch-node1,opensearch-node2 # Nodes to look for when discovering the cluster
-      - cluster.initial_cluster_manager_nodes=opensearch-node1,opensearch-node2 # Nodes eligibile to serve as cluster manager
-      - bootstrap.memory_lock=true # Disable JVM heap memory swapping
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # Set min and max JVM heap sizes to at least 50% of system RAM
-      - "DISABLE_INSTALL_DEMO_CONFIG=true" # Prevents execution of bundled demo script which installs demo certificates and security configurations to OpenSearch
-      - "DISABLE_SECURITY_PLUGIN=true" # Disables Security plugin
-    ulimits:
-      memlock:
-        soft: -1 # Set memlock to unlimited (no soft or hard limit)
-        hard: -1
-      nofile:
-        soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
-        hard: 65536
-    volumes:
-      - opensearch-data1:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
-    ports:
-      - 9200:9200 # REST API
-      - 9600:9600 # Performance Analyzer
-    networks:
-      - opensearch-net # All of the containers will join the same Docker bridge network
-  opensearch-node2:
-    image: opensearchproject/opensearch:latest
-    container_name: opensearch-node2
-    environment:
-      - cluster.name=opensearch-cluster # Name the cluster
-      - node.name=opensearch-node2 # Name the node that will run in this container
-      - discovery.seed_hosts=opensearch-node1,opensearch-node2 # Nodes to look for when discovering the cluster
-      - cluster.initial_cluster_manager_nodes=opensearch-node1,opensearch-node2 # Nodes eligibile to serve as cluster manager
-      - bootstrap.memory_lock=true # Disable JVM heap memory swapping
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # Set min and max JVM heap sizes to at least 50% of system RAM
-      - "DISABLE_INSTALL_DEMO_CONFIG=true" # Prevents execution of bundled demo script which installs demo certificates and security configurations to OpenSearch
-      - "DISABLE_SECURITY_PLUGIN=true" # Disables Security plugin
-    ulimits:
-      memlock:
-        soft: -1 # Set memlock to unlimited (no soft or hard limit)
-        hard: -1
-      nofile:
-        soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
-        hard: 65536
-    volumes:
-      - opensearch-data2:/usr/share/opensearch/data # Creates volume called opensearch-data2 and mounts it to the container
-    networks:
-      - opensearch-net # All of the containers will join the same Docker bridge network
-  opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:latest
-    container_name: opensearch-dashboards
-    ports:
-      - 5601:5601 # Map host port 5601 to container port 5601
-    expose:
-      - "5601" # Expose port 5601 for web access to OpenSearch Dashboards
-    environment:
-      - 'OPENSEARCH_HOSTS=["http://opensearch-node1:9200","http://opensearch-node2:9200"]'
-      - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
-    networks:
-      - opensearch-net
-
-volumes:
-  opensearch-data1:
-  opensearch-data2:
-
-networks:
-  opensearch-net:
-```
-{% include copy.html %}
+- `discovery.type` == `single-node`
+  - -> bootstrap checks do NOT fail / this single-node deployment
 
 ### Configuring basic security settings
 
-Before making your OpenSearch cluster available to external hosts, it's a good idea to review the deployment's security configuration. You may recall from the first [Sample docker-compose.yml](#sample-docker-composeyml) file that, unless disabled by setting `DISABLE_SECURITY_PLUGIN=true`, a bundled script will apply a default demo security configuration to the nodes in the cluster. Because this configuration is used for demo purposes, the default usernames and passwords are known. For that reason, we recommend that you create your own security configuration files and use `volumes` to pass these files to the containers. For specific guidance on OpenSearch security settings, see [Security configuration]({{site.url}}{{site.baseurl}}/security/configuration/index/).
+Before making your OpenSearch cluster available to external hosts, it's a good idea to review the deployment's security configuration
+* You may recall from the first [Sample docker-compose.yml](#sample-docker-composeyml) file that, unless disabled by setting `DISABLE_SECURITY_PLUGIN=true`
+a bundled script will apply a default demo security configuration to the nodes in the cluster
+* Because this configuration is used for demo purposes, the default usernames and passwords are known
+* For that reason, we recommend that you create your own security configuration files and use `volumes` to pass these files to the containers
+* For specific guidance on OpenSearch security settings, see [Security configuration]({{site.url}}{{site.baseurl}}/security/configuration/index/).
 
 To use your own certificates in your configuration, add all of the necessary certificates to the volumes section of the compose file:
 ```yml
@@ -309,7 +209,9 @@ volumes:
 ```
 {% include copy.html %}
 
-When you add TLS certificates to your OpenSearch nodes with Docker Compose volumes, you should also include a custom `opensearch.yml` file that defines those certificates. For example:
+When you add TLS certificates to your OpenSearch nodes with Docker Compose volumes, 
+you should also include a custom `opensearch.yml` file that defines those certificates
+* For example:
 ```yml
 volumes:
   - ./root-ca.pem:/usr/share/opensearch/config/root-ca.pem
@@ -321,7 +223,10 @@ volumes:
 ```
 {% include copy.html %}
 
-Remember that the certificates you specify in your compose file must be the same as the certificates defined in your custom `opensearch.yml` file. You should replace the root, admin, and node certificates with your own. For more information see [Configure TLS certificates]({{site.url}}{{site.baseurl}}/security/configuration/tls).
+Remember that the certificates you specify in your compose file must be the same 
+as the certificates defined in your custom `opensearch.yml` file
+You should replace the root, admin, and node certificates with your own
+For more information see [Configure TLS certificates]({{site.url}}{{site.baseurl}}/security/configuration/tls).
 ```yml
 plugins.security.ssl.transport.pemcert_filepath: node1.pem
 plugins.security.ssl.transport.pemkey_filepath: node1-key.pem
@@ -334,7 +239,9 @@ plugins.security.authcz.admin_dn:
 ```
 {% include copy.html %}
 
-After configuring security settings, your custom `opensearch.yml` file might look something like the following example, which adds TLS certificates and the distinguished name (DN) of the admin certificate, defines a few permissions, and enables verbose audit logging:
+After configuring security settings, your custom `opensearch.yml` file might look something like the following example, 
+which adds TLS certificates and the distinguished name (DN) of the admin certificate, 
+defines a few permissions, and enables verbose audit logging:
 ```yml
 plugins.security.ssl.transport.pemcert_filepath: node1.pem
 plugins.security.ssl.transport.pemkey_filepath: node1-key.pem
@@ -361,7 +268,8 @@ opendistro_security.audit.config.disabled_transport_categories: NONE
 
 For a full list of settings, see [Security]({{site.url}}{{site.baseurl}}/security/configuration/index/).
 
-Use the same process to specify a [Backend configuration]({{site.url}}{{site.baseurl}}/security/configuration/configuration/) in `/usr/share/opensearch/config/opensearch-security/config.yml` as well as new internal users, roles, mappings, action groups, and tenants in their respective [YAML files]({{site.url}}{{site.baseurl}}/security/configuration/yaml/).
+Use the same process to specify a [Backend configuration]({{site.url}}{{site.baseurl}}/security/configuration/configuration/) in `/usr/share/opensearch/config/opensearch-security/config.yml`
+as well as new internal users, roles, mappings, action groups, and tenants in their respective [YAML files]({{site.url}}{{site.baseurl}}/security/configuration/yaml/).
 
 #### Complete Docker Compose example with custom configuration
 
