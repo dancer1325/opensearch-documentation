@@ -23,7 +23,6 @@ nav_order: 70
 - [***Primary shard***](intro.md#primary-and-replica-shards)
 - [***Replica shard***](intro.md#primary-and-replica-shards)
 
-
 ## Data structures and storage
 
 - [***Doc values***](../_mappings/mapping-parameters/doc-values.md)
@@ -96,4 +95,9 @@ A _flush_ operation persists the files to disk using `fsync`, ensuring durabilit
 
 ### Merge
 
-In OpenSearch, a shard is a Lucene index, which consists of _segments_ (or segment files). Segments store the indexed data and are immutable. Periodically, smaller segments are merged into larger ones. Merging reduces the overall number of segments on each shard, frees up disk space, and improves search performance. Eventually, segments reach a maximum size specified in the merge policy and are no longer merged into larger segments. The merge policy also specifies how often merges are performed. 
+In OpenSearch, a shard is a Lucene index, which consists of _segments_ (or segment files)
+* Segments store the indexed data and are immutable
+* Periodically, smaller segments are merged into larger ones
+* Merging reduces the overall number of segments on each shard, frees up disk space, and improves search performance
+* Eventually, segments reach a maximum size specified in the merge policy and are no longer merged into larger segments
+* The merge policy also specifies how often merges are performed. 
