@@ -27,3 +27,6 @@ GET {{OPENSEARCH_HOST}}/_cat/nodes?v&h=name,search.query_total,search.query_time
 GET {{OPENSEARCH_HOST}}/_cat/master?v
 ### 2.5 check number of nodes
 GET http://localhost:9200/_cat/nodes
+### 2.6 transport stats
+GET {{OPENSEARCH_HOST}}/_nodes/stats/transport
+

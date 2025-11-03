@@ -41,3 +41,5 @@
 ### _cluster manager_ node
 #### responsible for orchestrates cluster-level operations
 * TODO:
+### nodes communicate one to each other
+* [transport stats](intro.http)
