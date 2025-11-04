@@ -7,7 +7,8 @@ nav_order: 3
 
 # Best practices for OpenSearch security
 
-Setting up security in OpenSearch is crucial for protecting your data. Here are 10 best practices that offer clear steps for keeping your system safe.
+* goal
+  * OpenSearch security's 10 best practices
 
 ## 1. Use your own PKI to set up SSL/TLS
 

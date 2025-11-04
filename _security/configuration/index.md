@@ -12,19 +12,34 @@ redirect_from:
 
 # Security configuration
 
-The Security plugin includes demo certificates so that you can get up and running quickly. To use OpenSearch with the Security plugin in a production environment, you must make changes to the demo certificates and other configuration options manually.
+* Security plugin
+  * includes
+    * 👀demo certificates👀
+      * Reason:🧠QUICKLY get up & run🧠
+  * recommendations
+    * | production,
+      * change MANUALLY
+        * demo certificates
+        * other configuration options 
 
 ## Replace the demo certificates
 
-OpenSearch ships with demo certificates intended for quick setup and demonstration purposes. For a production environment, it's critical to replace these with your own trusted certificates, using the following steps, to ensure secure communication:
+* uses
+  * | production
 
-1. **Generate your own certificates:** Use tools like OpenSSL or a certificate authority (CA) to generate your own certificates. For more information about generating certificates with OpenSSL, see [Generating self-signed certificates]({{site.url}}{{site.baseurl}}/security/configuration/generate-certificates/).
-2. **Store the generated certificates and private key in the appropriate directory:** Generated certificates are typically stored in `<OPENSEARCH_HOME>/config/`. For more information, see [Add certificate files to opensearch.yml]({{site.url}}{{site.baseurl}}/security/configuration/generate-certificates/#add-certificate-files-to-opensearchyml).
-3. **Set the following file permissions:**
-    - Private key (.key files): Set the file mode to `600`. This restricts access so that only the file owner (the OpenSearch user) can read and write to the file, ensuring that the private key remains secure and inaccessible to unauthorized users.
-    - Public certificates (.crt, .pem files): Set the file mode to `644`. This allows the file owner to read and write to the file, while other users can only read it.
-
-For additional guidance on file modes, see the following table.
+* steps
+  1. [Generate your own certificates](generate-certificates)
+  2. [Store the generated certificates & private key | appropriate directory](generate-certificates.md#add-certificate-files-to-opensearchyml) 
+     * typically | "<OPENSEARCH_HOME>/config/"
+  3. **Set the following file permissions:**
+     * Private key (.key files)
+       * Set file mode == `600`
+         * == ONLY the file owner (== OpenSearch user) can read & write to the file
+           * Reason:🧠private key remains secure & inaccessible | unauthorized users🧠
+     * Public certificates (.crt, .pem files)
+       * Set file mode == `644`
+         * file owner can read & write to the file
+         * OTHER users can ONLY read it.
         
         | Item        | Sample              | Numeric | Bitwise      |
         |-------------|---------------------|---------|--------------|
@@ -32,11 +47,12 @@ For additional guidance on file modes, see the following table.
         | Private key | `~/.ssh/id_rsa`     | `600`   | `-rw-------` |
         | SSH folder  | `~/.ssh`            | `700`   | `drwx------` |
 
-For more information, see [Configuring basic security settings]({{site.url}}{{site.baseurl}}/install-and-configure/install-opensearch/docker/#configuring-basic-security-settings).
+* [how to configure basic security settings](../../_install-and-configure/install-opensearch/docker.md#configuring-basic-security-settings)
 
 ## Reconfigure `opensearch.yml` to use your certificates
 
-The `opensearch.yml` file is the main configuration file for OpenSearch; you can find the file at `<OPENSEARCH_HOME>/config/opensearch.yml`. Use the following steps to update this file to point to your custom certificates:
+The `opensearch.yml` file is the main configuration file for OpenSearch; you can find the file at `<OPENSEARCH_HOME>/config/opensearch.yml`
+* Use the following steps to update this file to point to your custom certificates:
 
 In `opensearch.yml`, set the correct paths for your certificates and keys, as shown in the following example:
    ```
@@ -52,7 +68,8 @@ For more information, see [Configuring TLS certificates]({{site.url}}{{site.base
 
 ## Reconfigure `config.yml` to use your authentication backend
 
-The `config.yml` file allows you to configure the authentication and authorization mechanisms for OpenSearch. Update the authentication backend settings in `<OPENSEARCH_HOME>/config/opensearch-security/config.yml` according to your requirements. 
+The `config.yml` file allows you to configure the authentication and authorization mechanisms for OpenSearch
+* Update the authentication backend settings in `<OPENSEARCH_HOME>/config/opensearch-security/config.yml` according to your requirements. 
 
 For example, to use the internal authentication backend, add the following settings:
 

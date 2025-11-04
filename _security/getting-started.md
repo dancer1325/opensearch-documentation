@@ -8,24 +8,33 @@ redirect_from:
 
 # Getting started with OpenSearch security
 
-The demo configuration is the most straightforward way to get started with OpenSearch security. OpenSearch comes bundled with a number of useful scripts, including `install_demo_configuration.sh` (or `install_demo_configuration.bat` for Windows).
+* demo configuration
+  * == MOST straightforward way -- to -- get started with OpenSearch security
+  * 's bundled script
+    * located | "plugins/opensearch-security/tools"
+    * _Example:_ "install_demo_configuration.*"
+      * | Windows,
+        * `install_demo_configuration.bat`
+      * | OTHERS,
+        * `install_demo_configuration.sh`
+      * perform
+        - Creates TLS encryption's demo certificates | transport & REST layers
+        - Configures demo users + roles + role mappings
+        - Configures the Security plugin / use an internal database | authentication & authorization
+        - Updates the "opensearch.yml" -- with the -- basic configuration / start the cluster
 
-This script is located in `plugins/opensearch-security/tools` and performs the following actions:
+* [MORE](configuration/demo-configuration)
 
-- Creates demo certificates for TLS encryption on both the transport and REST layers.
-- Configures demo users, roles, and role mappings.
-- Configures the Security plugin to use an internal database for authentication and authorization.
-- Updates the `opensearch.yml` file with the basic configuration needed to start the cluster.
-
-You can find more information about the demo configuration and how to quickly get started at [Setting up a demo configuration]({{site.url}}{{site.baseurl}}/security/configuration/demo-configuration/).
-{: .note}
-
-Certain aspects of this configuration, such as demo certificates and default passwords, should never be used in production. These parts of the demo configuration should be replaced with your custom information before proceeding to production.
+Certain aspects of this configuration, such as demo certificates and default passwords, should never be used in production
+* These parts of the demo configuration should be replaced with your custom information before proceeding to production.
 {: .warning}
 
 ## Setting up the demo configuration
 
-Prior to running the `install_demo_configuration.sh` script, you must create an environment variable named `OPENSEARCH_INITIAL_ADMIN_PASSWORD` with a strong password. This will be used as the password for the admin user to authenticate with OpenSearch. Use the online tool [_Zxcvbn_](https://lowe.github.io/tryzxcvbn/) to test the strength of any password. After this, you can execute `install_demo_configuration.sh` and follow the terminal prompt to enter necessary details.
+Prior to running the `install_demo_configuration.sh` script, you must create an environment variable named `OPENSEARCH_INITIAL_ADMIN_PASSWORD` with a strong password
+* This will be used as the password for the admin user to authenticate with OpenSearch
+* Use the online tool [_Zxcvbn_](https://lowe.github.io/tryzxcvbn/) to test the strength of any password
+* After this, you can execute `install_demo_configuration.sh` and follow the terminal prompt to enter necessary details.
 
 After the script is executed, you can start OpenSearch and test the configuration by running the following command:
 
@@ -77,7 +86,8 @@ opensearch_security.cookie.secure: false
 
 You can start the binary or service, depending on which method was used to install OpenSearch and OpenSearch Dashboards.
 
-When using binary, you need to supply `--no-base-path` to `yarn start` command to set a URL without a base path. If this is not set, a random three-letter base path will be added.
+When using binary, you need to supply `--no-base-path` to `yarn start` command to set a URL without a base path
+* If this is not set, a random three-letter base path will be added.
 {: .note}
 
 After starting OpenSearch Dashboards, you should see the following two log lines:
@@ -88,7 +98,8 @@ After starting OpenSearch Dashboards, you should see the following two log lines
 ```
 {% include copy.html %}
 
-You can now access OpenSearch Dashboards using http://localhost:5601 in your browser. Use the username `admin` and the password that was configured in the `OPENSEARCH_INITIAL_ADMIN_PASSWORD` environment variable.
+You can now access OpenSearch Dashboards using http://localhost:5601 in your browser
+* Use the username `admin` and the password that was configured in the `OPENSEARCH_INITIAL_ADMIN_PASSWORD` environment variable.
 
 # Adding users
 
@@ -113,7 +124,8 @@ test-user:
 ```
 {% include copy.html %}
 
-The `hash` string is generated using the `hash.sh` script located in the `plugins/opensearch-security/tools/` directory. In this case, the hash of the string `secretpassword` was used.
+The `hash` string is generated using the `hash.sh` script located in the `plugins/opensearch-security/tools/` directory
+* In this case, the hash of the string `secretpassword` was used.
 
 Note the use of the built-in backend role `kibanauser`, which provides the user permissions needed to navigate OpenSearch Dashboards.
 
@@ -150,7 +162,8 @@ Note that the cluster permissions are not listed in this example because these a
 
 ## Mapping users to roles
 
-When a user logs in to OpenSearch, they need to be mapped to the appropriate role in order to obtain the correct permissions. This mapping is performed using the `roles_mapping.yml` file with the following structure:
+When a user logs in to OpenSearch, they need to be mapped to the appropriate role in order to obtain the correct permissions
+* This mapping is performed using the `roles_mapping.yml` file with the following structure:
 
 ```
 <role_name>:
@@ -184,7 +197,8 @@ kibana_user:
 
 ## Uploading the configuration to a security index
 
-The final step in configuring a user, role, or any other security configuration is uploading it to a OpenSearch security index. Only updating the files, without uploading them, will not change the configuration of an already running OpenSearch cluster. 
+The final step in configuring a user, role, or any other security configuration is uploading it to a OpenSearch security index
+* Only updating the files, without uploading them, will not change the configuration of an already running OpenSearch cluster. 
 
 To upload a configuration, the following command can be used with the admin certificate that was generated during `install_demo_configuration.sh` execution:
 
