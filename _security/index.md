@@ -14,34 +14,56 @@ redirect_from:
 
 # About Security in OpenSearch
 
-Security in OpenSearch is built around four main features that work together to safeguard data and track activity within a cluster. Separately, these features are:
+* OpenSearch's security
+  * 's MAIN features
+    * are
+      * [Encryption](#encryption)
+      * [Authentication](#authentication)
+      * [Access control](#access-control)
+      * [Audit logging & compliance](#audit-logging-and-compliance) 
+    * allow
+      * safeguard data
+      * track activity | cluster
 
-* Encryption.
-* Authentication.
-* Access control.
-* Audit logging and compliance.
-
-Used together they provide effective protection of sensitive data by placing it behind multiple layers of defense and granting or restricting access to the data at different levels in the OpenSearch data structure. Most implementations use a combination of options for these features to meet specific security needs.
-
-## Features at a glance
-
-The following topics provide a general description of the features that define security in OpenSearch.
+## Features
 
 ### Encryption
 
-Encryption typically addresses the protection of data both at rest and in transit. OpenSearch Security is responsible for managing encryption in transit.
+* allows
+  * protecting data |
+    * [rest](../_troubleshoot/index.md#encryption-at-rest)
+      * == 👀client -- to -- OpenSearch node 👀
+      * -- via -- TLS protocol
+      * managed -- by -- OS | EACH OpenSearch node
+      * == protect data |
+        * cluster 
+          * _Examples:_ indexes, logs, swap files, automated snapshots
+        * application directory
+    * transit
+      * 👀are
+        * -- to -- OpenSearch cluster
+        * -- from -- OpenSearch cluster
+        * | OpenSearch cluster
+      * -- via -- TLS protocol👀
+      * managed -- by -- OpenSearch security
 
-In transit, Security encrypts data moving to, from, and within the cluster. OpenSearch uses the TLS protocol, which covers both client-to-node encryption (the REST layer) and node-to-node encryption (the transport layer). This combination of in-transit encryption helps ensure that both requests to OpenSearch and the movement of data among different nodes are safe from tampering.
-
-You can find out more about configuring TLS in the [Configuring TLS certificates]({{site.url}}{{site.baseurl}}/security/configuration/tls/) section.
-
-Encryption at rest, on the other hand, protects data stored in the cluster, including indexes, logs, swap files, automated snapshots, and all data in the application directory. This type of encryption is managed by the operating system on each OpenSearch node. For information about enabling encryption at rest, see [Encryption at rest]({{site.url}}{{site.baseurl}}/troubleshoot/index/#encryption-at-rest).
+* [Configure TLS certificates](configuration/tls.md)
 
 ### Authentication
 
-Authentication is used to validate the identity of users and works by verifying an end user’s credentials against a backend configuration. These credentials can be a simple name and password, a JSON web token, or a TLS certificate. Once the authentication domain extracts those credentials from a user’s request, it can check their validity against the authentication backend.
+* Authentication
+  * allows
+    * validating the identity of users
+      * _Examples:_ name & password, JSON web token, TLS certificate 
+  * steps
+    * authentication domain extracts those credentials -- from a -- user’s request
+    * verify an end user’s credentials -- against a -- backend configuration
 
-The backend used for validation can be OpenSearch's built-in internal user database—used for storing user and role configurations and hashed passwords—or one of a wide range of industry-standard identification protocols such as LDAP, Active Directory, SAML, or OpenID Connect. A common practice is to chain together more than one authentication method to create a more robust defense against unauthorized access. This might involve, for example, HTTP basic authentication followed by a backend configuration that specifies the LDAP protocol. See the [Configuring the Security backend]({{site.url}}{{site.baseurl}}/security/configuration/configuration/) section to learn more about setting up the backend.
+
+* The backend used for validation can be OpenSearch's built-in internal user database—used for storing user and role configurations and
+* A common practice is to chain together more than one authentication method to create a more robust defense against unauthorized access
+* This might involve, for example, HTTP basic authentication followed by a backend configuration that specifies the LDAP protocol
+* [how to configure the Security backend](configuration/configuration.md)
 
 ### Access control
 

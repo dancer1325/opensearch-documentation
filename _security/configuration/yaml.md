@@ -9,17 +9,33 @@ redirect_from:
 
 # Modifying the YAML files
 
-The Security installation provides a number of YAML configuration files that are used to store the necessary settings that define the way the Security plugin manages users, roles, and activity within the cluster. These settings range from configurations for authentication backends to lists of allowed endpoints and HTTP requests. 
-
-Before running [`securityadmin.sh`]({{site.url}}{{site.baseurl}}/security/configuration/security-admin/) to load the settings into the `.opendistro_security` index, perform an initial configuration of the YAML files. The files can be found in the `config/opensearch-security` directory. It's also good practice to back up these files so that you can reuse them for other clusters.
-
-The approach we recommend for using the YAML files is to first configure [reserved and hidden resources]({{site.url}}{{site.baseurl}}/security/access-control/api#reserved-and-hidden-resources), such as the `admin` and `kibanaserver` users. Thereafter you can create other users, roles, mappings, action groups, and tenants using OpenSearch Dashboards or the REST API.
+* OpenSearch Security configuration files  
+  * == YAML / 
+    * define 
+      * how to manage
+        * users,
+        * roles,
+        * activity | cluster
+        * authentication backends
+        * ...
+    * stored | "config/opensearch-security" directory
+  * steps
+    * configure them
+    * run [`securityadmin.sh`](security-admin)
+      * == load the settings | ".opendistro_security" index
+  * recommendations
+    * back up these files
+    * FIRST configure [reserved & hidden resources](../access-control/api.md#reserved-and-hidden-resources)
+      * _Example:_ `admin` and `kibanaserver` users
+      * Reason: 🧠AFTERWARD, you can create other users, roles, mappings, action groups, and tenants -- via -- OpenSearch Dashboards or the REST API🧠
 
 ## action_groups.yml
 
-This file contains any role mappings required for your security configuration. You can find the `role_mapping.yml` file in `<OPENSEARCH_HOME>/config/opensearch-security/roles_mapping.yml`.
+This file contains any role mappings required for your security configuration
+* You can find the `role_mapping.yml` file in `<OPENSEARCH_HOME>/config/opensearch-security/roles_mapping.yml`.
 
-Aside from some metadata, the default file is empty, because the Security plugin has a number of static action groups that it adds automatically. These static action groups cover a wide variety of use cases and are a great way to get started with the plugin.
+Aside from some metadata, the default file is empty, because the Security plugin has a number of static action groups that it adds automatically
+* These static action groups cover a wide variety of use cases and are a great way to get started with the plugin.
 
 ```yml
 ---
@@ -41,7 +57,9 @@ _meta:
 
 ## allowlist.yml
 
-You can use `allowlist.yml` to add any endpoints and HTTP requests to a list of allowed endpoints and requests. If enabled, all users except the super admin are allowed access to only the specified endpoints and HTTP requests, and all other HTTP requests associated with the endpoint are denied. For example, if GET `_cluster/settings` is added to the allow list, users cannot submit PUT requests to `_cluster/settings` to update cluster settings.
+You can use `allowlist.yml` to add any endpoints and HTTP requests to a list of allowed endpoints and requests
+* If enabled, all users except the super admin are allowed access to only the specified endpoints and HTTP requests, and all other HTTP requests associated with the endpoint are denied
+* For example, if GET `_cluster/settings` is added to the allow list, users cannot submit PUT requests to `_cluster/settings` to update cluster settings.
 
 You can find the `allowlist.yml` file in `<OPENSEARCH_HOME>/config/opensearch-security/allowlist.yml`.
 
@@ -82,7 +100,8 @@ requests:
     - PUT
 ```
 
-You can also add custom indexes to the allow list. `allowlist.yml` doesn't support wildcards, so you must manually specify all of the indexes you want to add.
+You can also add custom indexes to the allow list
+* `allowlist.yml` doesn't support wildcards, so you must manually specify all of the indexes you want to add.
 
 ```yml
 requests: # Only allow GET requests to /sample-index1/_doc/1 and /sample-index2/_doc/1
@@ -94,85 +113,23 @@ requests: # Only allow GET requests to /sample-index1/_doc/1 and /sample-index2/
 
 ## internal_users.yml
 
-This file contains any initial users that you want to add to the Security plugin's internal user database. You can find this file in `<OPENSEARCH_HOME>/config/opensearch-security/internal_users.yml`.
-
-The file format requires a hashed password. To generate one, run `plugins/opensearch-security/tools/hash.sh -p <new-password>`. If you decide to keep any of the demo users, *change their passwords* and re-run [securityadmin.sh]({{site.url}}{{site.baseurl}}/security/configuration/security-admin/) to apply the new passwords.
-
-```yml
----
-# This is the internal user database
-# The hash value is a bcrypt hash and can be generated with plugin/tools/hash.sh
-
-_meta:
-  type: "internalusers"
-  config_version: 2
-
-# Define your internal users here
-new-user:
-  hash: "$2y$12$88IFVl6IfIwCFh5aQYfOmuXVL9j2hz/GusQb35o.4sdTDAEMTOD.K"
-  reserved: false
-  hidden: false
-  opendistro_security_roles:
-  - "specify-some-security-role-here"
-  backend_roles:
-  - "specify-some-backend-role-here"
-  attributes:
-    attribute1: "value1"
-  static: false
-
-## Demo users
-
-admin:
-  hash: "$2a$12$VcCDgh2NDk07JGN0rjGbM.Ad41qVR/YFJcgHp0UGns5JDymv..TOG"
-  reserved: true
-  backend_roles:
-  - "admin"
-  description: "Demo admin user"
-
-kibanaserver:
-  hash: "$2a$12$4AcgAt3xwOWadA5s5blL6ev39OXDNhmOesEoo33eZtrq2N0YrU3H."
-  reserved: true
-  description: "Demo user for the OpenSearch Dashboards server"
-
-kibanaro:
-  hash: "$2a$12$JJSXNfTowz7Uu5ttXfeYpeYE0arACvcwlPBStB1F.MI7f0U9Z4DGC"
-  reserved: false
-  backend_roles:
-  - "kibanauser"
-  - "readall"
-  attributes:
-    attribute1: "value1"
-    attribute2: "value2"
-    attribute3: "value3"
-  description: "Demo read-only user for OpenSearch dashboards"
-
-logstash:
-  hash: "$2a$12$u1ShR4l4uBS3Uv59Pa2y5.1uQuZBrZtmNfqB3iM/.jL0XoV9sghS2"
-  reserved: false
-  backend_roles:
-  - "logstash"
-  description: "Demo logstash user"
-
-readall:
-  hash: "$2a$12$ae4ycwzwvLtZxwZ82RmiEunBbIPiAmGZduBAjKN0TXdwQFtCwARz2"
-  reserved: false
-  backend_roles:
-  - "readall"
-  description: "Demo readall user"
-
-snapshotrestore:
-  hash: "$2y$12$DpwmetHKwgYnorbgdvORCenv4NAK8cPUg8AI6pxLCuWf/ALc0.v7W"
-  reserved: false
-  backend_roles:
-  - "snapshotrestore"
-  description: "Demo snapshotrestore user"
-```
+* == 👀initial users / add | Security plugin's internal user database👀
+  * ⚠️hashed password⚠️ 
+    * generate -- via -- `plugins/opensearch-security/tools/hash.sh -p <new-password>`
+  * recommendations
+    * if you want to use demo users ->
+      * *change their passwords*
+      * re-run [`securityadmin.sh`](security-admin.md)
+          * Reason:🧠apply the new passwords🧠 
+* store | "<OPENSEARCH_HOME>/config/opensearch-security/internal_users.yml"
 
 ## nodes_dn.yml
 
-`nodes_dn.yml` lets you add certificates' [distinguished names (DNs)]({{site.url}}{{site.baseurl}}/security/configuration/generate-certificates/#add-distinguished-names-to-opensearchyml) to an allow list to enable communication between any number of nodes or clusters. For example, a node that has the DN `CN=node1.example.com` in its allow list accepts communication from any other node or certificate that uses that DN.
+`nodes_dn.yml` lets you add certificates' [distinguished names (DNs)]({{site.url}}{{site.baseurl}}/security/configuration/generate-certificates/#add-distinguished-names-to-opensearchyml) to an allow list to enable communication between any number of nodes or clusters
+* For example, a node that has the DN `CN=node1.example.com` in its allow list accepts communication from any other node or certificate that uses that DN.
 
-The DNs get indexed into a [system index]({{site.url}}{{site.baseurl}}/security/configuration/system-indices) that only a super admin or an admin with a Transport Layer Security (TLS) certificate can access. If you want to programmatically add DNs to your allow lists, use the [REST API]({{site.url}}{{site.baseurl}}/security/access-control/api/#distinguished-names).
+The DNs get indexed into a [system index]({{site.url}}{{site.baseurl}}/security/configuration/system-indices) that only a super admin or an admin with a Transport Layer Security (TLS) certificate can access
+* If you want to programmatically add DNs to your allow lists, use the [REST API]({{site.url}}{{site.baseurl}}/security/access-control/api/#distinguished-names).
 
 ```yml
 ---
@@ -265,7 +222,8 @@ kibana_server:
 
 ## roles.yml
 
-This file contains any initial roles that you want to add to the Security plugin. By default, this file contains predefined roles that grant usage to plugins within the default distribution of OpenSearch. The Security plugin will also add a number static roles automatically.
+This file contains any initial roles that you want to add to the Security plugin
+* By default, this file contains predefined roles that grant usage to plugins within the default distribution of OpenSearch. The Security plugin will also add a number static roles automatically.
 
 ```yml
 ---

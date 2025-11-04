@@ -1,18 +1,4 @@
 # Developer guide
-- [Introduction](#introduction)
-- [Starting the Jekyll server locally](#starting-the-jekyll-server-locally)
-- [Using the spec-insert Jekyll plugin](#using-the-spec-insert-jekyll-plugin)
-  - [Ignoring files and folders](#ignoring-files-and-folders)
-- [CI/CD](#cicd)
-- [Spec insert components](#spec-insert-components)
-  - [Query parameters](#query-parameters)
-  - [Path parameters](#path-parameters)
-  - [Endpoints](#endpoints)
-  - [Example_Code](#example_code)
-  
-## Introduction
-
-The `.md` documents in this repository are rendered into HTML pages using [Jekyll](https://jekyllrb.com/). These HTML pages are hosted on [opensearch.org](https://docs.opensearch.org/latest/).
 
 ## Starting the Jekyll server locally
 

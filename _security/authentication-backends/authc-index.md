@@ -11,13 +11,20 @@ redirect_from:
 
 # Authentication backends
 
-Authentication backend configurations determine the method or methods you use for authenticating users and the way users pass their credentials and sign in to OpenSearch. Having an understanding of the basic authentication flow before getting started can help with the configuration process for whichever backend you choose. Consider the high-level sequence of events in the description that follows, and then refer to the detailed steps for configuring the authentication type you choose to use with OpenSearch.
+* goal
+    * Authentication flow
+
+* Authentication backend
+  * == method OR methods -- for -- authenticating users | OpenSearch
 
 ## Authentication flow
 
-1. To identify a user who wants to access the cluster, the Security plugin needs the user's credentials.
-
-   These credentials differ depending on how you've configured the plugin. For example, if you use basic authentication, the credentials are a username and password. If you use a JSON web token, the credentials (username and roles) are stored within the token itself. If you use TLS certificates, the credentials are the distinguished name (DN) of the certificate. No matter which backend you use, these credentials are included in the request for authentication. Note, the Security plugin does not distinguish between identity providers when handling standard role mappings. As a result, only backend roles will differ between two users with the same name coming from two different identity providers. 
+1. user's credentials
+   * required -- by -- Security plugin
+   * allows
+     * identifying the user / wants to access the cluster
+   * -- depend on -- plugin configuration
+     * For example, if you use basic authentication, the credentials are a username and password. If you use a JSON web token, the credentials (username and roles) are stored within the token itself. If you use TLS certificates, the credentials are the distinguished name (DN) of the certificate. No matter which backend you use, these credentials are included in the request for authentication. Note, the Security plugin does not distinguish between identity providers when handling standard role mappings. As a result, only backend roles will differ between two users with the same name coming from two different identity providers. 
 
 2. The Security plugin authenticates a request against a backend configured for an authentication provider. Some examples of authentication providers used with OpenSearch include Basic Auth (which uses the internal user database), LDAP/Active Directory, JSON web tokens, SAML, or another authentication protocol.
 
