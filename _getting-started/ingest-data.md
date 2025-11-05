@@ -6,11 +6,11 @@ nav_order: 40
 
 # Ingest your data into OpenSearch
 
-* ways to ingest data | OpenSearch
-  - [ingest individual documents](communicate.md#indexing-documents)
-  - Index multiple documents in bulk. For more information, see [Bulk indexing](#bulk-indexing).
-  - Use Data Prepper---an OpenSearch server-side data collector that can enrich data for downstream analysis and visualization. For more information, see [Data Prepper]({{site.url}}{{site.baseurl}}/data-prepper/). 
-  - Use other ingestion tools. For more information, see [OpenSearch tools]({{site.url}}{{site.baseurl}}/tools/).
+* 👀ways to ingest data | OpenSearch👀
+  - [index 1! document](communicate.md#indexing-documents)
+  - index MULTIPLE documents -- via -- [Bulk indexing](#bulk-indexing)
+  - index + enrich -- via -- [Data Prepper](../_data-prepper) 
+  - [OTHER OpenSearch tools](../_tools)
 
 ## Bulk indexing
 
