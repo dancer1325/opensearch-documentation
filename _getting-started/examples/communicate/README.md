@@ -1,3 +1,5 @@
+* [how to run?](../README.md#how-to-run)
+
 # OpenSearch REST API
 ## Sending requests | terminal
 * hit [communicate.http](communicate.http)

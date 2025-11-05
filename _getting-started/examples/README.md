@@ -1,4 +1,4 @@
-# how has it been created?
+# how to run?
 * `docker compose up -d`
   * Problems:
     * Problem1: "OpenSearch Dashboards server is not ready yet" -- "getaddrinfo ENOTFOUND opensearch-node1"}"
