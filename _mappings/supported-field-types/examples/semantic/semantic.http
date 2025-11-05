@@ -1,0 +1,43 @@
+### 1. Dense embedding model
+### 1.1 create an index / has a `semantic` field
+PUT {{OPENSEARCH_HOST_HTTPS}}/my-nlp-index
+Content-Type: application/json
+
+{
+  "settings": {
+    "index": {
+      "knn": true
+    }
+  },
+  "mappings": {
+    "properties": {
+      "passage": {
+        "type": "semantic",
+        "model_id": "n17yX5cBsaYnPfyOzmQU"
+      }
+    }
+  }
+}
+
+### 1.2 check PREVIOUS index's mapping / AUTOMATICALLY creates `passage_semantic_info` field
+GET {{OPENSEARCH_HOST_HTTPS}}/my-nlp-index/_mapping
+
+
+### 2. encoding model
+## 2.1 create an index / has a `semantic` field
+PUT {{OPENSEARCH_HOST_HTTPS}}/my-nlp-index
+Content-Type: application/json
+
+{
+  "mappings": {
+    "properties": {
+      "passage": {
+        "type": "semantic",
+        "model_id": "n17yX5cBsaYnPfyOzmQU"
+      }
+    }
+  }
+}
+
+### 2.2 check PREVIOUS index's mapping / AUTOMATICALLY creates `passage_semantic_info` field
+GET {{OPENSEARCH_HOST_HTTPS}}/my-nlp-index/_mapping
